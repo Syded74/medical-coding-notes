@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Medical Coding & Billing Notes</title>
+  <style>
+    :root{--accent:#2b7a78;--muted:#667085;--bg:#f7fbfb;--card:#ffffff}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    body{background:linear-gradient(180deg,var(--bg),#eef7f7);color:#0f1724}
+    .wrap{max-width:980px;margin:36px auto;padding:24px}
+    header{display:flex;align-items:center;gap:16px}
+    .logo{width:56px;height:56px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+    h1{margin:0;font-size:1.6rem}
+    p.lead{color:var(--muted);margin:6px 0 20px}
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:20px}
+    .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(19,38,41,0.06)}
+    .notes{min-height:420px}
+    .notes h2{margin-top:0}
+    textarea{width:100%;height:260px;border:1px solid #e6eef0;border-radius:8px;padding:12px;font-family:inherit;resize:vertical}
+    .resources ul{padding-left:18px;margin:8px 0}
+    footer{margin-top:18px;color:var(--muted);font-size:.9rem}
+    @media (max-width:880px){.grid{grid-template-columns:1fr} .resources{order:-1}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">MC</div>
+      <div>
+        <h1>Medical Coding & Billing — Notes</h1>
+        <p class="lead">A simple notes page for your class. Edit this file in the repo to update your site.</p>
+      </div>
+    </header>
+
+    <main class="grid" role="main">
+      <section class="card notes">
+        <h2>Lecture Notes</h2>
+        <p class="muted">Use the text area below to paste or keep short in-browser notes. For permanent edits, update index.html in the GitHub repository.</p>
+        <textarea placeholder="Paste quick notes from class here...">- Course: Medical Coding & Billing\n- Topic: CPT & ICD-10 Overview\n- Date: 2026-10-13\n\nNotes:\n1) CPT codes categorize services performed by providers.\n2) ICD-10 codes classify diagnoses and reasons for visits.\n3) Verify payer rules and modifiers when billing.\n</textarea>
+
+        <h3 style="margin-top:16px">How to edit</h3>
+        <ol>
+          <li>Go to the repo: <a href="https://github.com/Syded74/medical-coding-notes" target="_blank">github.com/Syded74/medical-coding-notes</a></li>
+          <li>Click index.html → Edit (pencil icon) → Commit changes</li>
+          <li>Refresh the Pages site to see your updates</li>
+        </ol>
+      </section>
+
+      <aside class="card resources">
+        <h2>Resources</h2>
+        <ul>
+          <li><a href="https://www.cms.gov/medicare/coding" target="_blank">CMS — Coding resources</a></li>
+          <li><a href="https://www.ama-assn.org/practice-management/cpt" target="_blank">AMA CPT information</a></li>
+          <li><a href="https://www.cdc.gov/nchs/icd/icd10cm.htm" target="_blank">CDC — ICD-10-CM</a></li>
+        </ul>
+
+        <h3>To-do</h3>
+        <ul>
+          <li>Add lecture-by-date pages</li>
+          <li>Organize codes index (CPT / ICD-10)</li>
+          <li>Enable edit suggestions (or add Markdown files)</li>
+        </ul>
+
+        <footer>
+          Published with GitHub Pages — <a href="https://syded74.github.io/medical-coding-notes/" target="_blank">View site</a>
+        </footer>
+      </aside>
+    </main>
+
+  </div>
+</body>
+</html>
