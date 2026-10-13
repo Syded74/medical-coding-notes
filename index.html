@@ -104,37 +104,91 @@ th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vert
 th{background:var(--teal-soft);color:var(--ink);width:34%}
 .scroll{overflow-x:auto}
 #q{width:100%;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit;margin-bottom:12px}
+.panel{display:none}.panel.on{display:block}
+nav a.cur{background:var(--teal);color:var(--bg)}
+.mod{margin-top:40px;padding:22px 24px;background:var(--teal);color:var(--bg);border-radius:16px}
+.mod h2{font-size:clamp(1.5rem,4vw,2.1rem)}
+.mod p{margin:6px 0 0;opacity:.9}
+.sub{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.sub a{background:rgba(255,255,255,.18);color:inherit;text-decoration:none;padding:4px 12px;border-radius:99px;font-size:15px;font-weight:600}
+.soon{border:2px dashed var(--line);border-radius:14px;padding:24px;margin-top:20px;color:var(--soft)}
+.soon b{color:var(--ink)}
+
+html{scroll-padding-top:120px}
+nav a small{font-weight:400;color:var(--soft);margin-left:4px}
+nav a.cur{background:var(--teal);color:var(--bg)}
+nav a.cur small{color:inherit;opacity:.85}
+.hero{padding:48px 0 8px}
+.hero h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:800;max-width:14ch}
+.hero .lead{color:var(--soft);margin-bottom:26px}
+.weeks .wk{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;transition:transform .15s ease,border-color .15s ease}
+.weeks .wk:hover{transform:translateY(-3px);border-color:var(--teal)}
+.weeks .wk.ready{border-top:6px solid var(--teal)}
+.weeks .wk h3{margin:10px 0 8px}
+.weeks .wk p{margin:0;color:var(--soft)}
+.pill{display:inline-block;font-size:13px;font-weight:700;padding:2px 12px;border-radius:99px;background:var(--gold-soft);color:var(--ink)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.light{background:rgba(255,255,255,.2);color:inherit;margin-bottom:8px}
+.mod{margin-top:28px}
+.subnav{position:sticky;top:53px;z-index:4;display:flex;gap:6px;overflow-x:auto;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-top:6px}
+.subnav a{white-space:nowrap;text-decoration:none;color:var(--ink);padding:5px 14px;border-radius:99px;font-size:15px;font-weight:600;border:1px solid var(--line);background:var(--card)}
+.subnav a.on{background:var(--gold);border-color:var(--gold);color:#18232f}
+.soon{border:2px dashed var(--line);border-radius:14px;padding:22px;margin-top:18px;background:var(--card)}
+.soon h3{margin:10px 0 4px}
+.soon p{margin:0;color:var(--soft)}
+.soon ul{margin:12px 0 0;padding-left:20px;color:var(--soft)}
+.pager{display:flex;justify-content:space-between;gap:12px;margin:40px 0 0;padding-top:20px;border-top:1px solid var(--line)}
+.pager a{background:var(--teal);color:var(--bg);text-decoration:none;font-weight:700;padding:10px 20px;border-radius:99px}
+.pager a:first-child:not(:only-child){background:transparent;color:var(--teal);border:2px solid var(--teal)}
+.totop{position:fixed;right:16px;bottom:16px;width:44px;height:44px;border-radius:50%;border:none;background:var(--teal);color:var(--bg);font-size:20px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .2s}
+.totop.show{opacity:1;pointer-events:auto}
 footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
 
-<nav aria-label="Sections">
+<nav aria-label="Main">
   <div class="wrap">
-    <a href="#cycle">1. Revenue cycle</a>
-    <a href="#copay">2. Copay and more</a>
-    <a href="#oop">3. OOP max</a>
-    <a href="#verify">4. Verification</a>
-    <a href="#check">Quick check</a>
-    <a href="#words">Words</a>
+    <a href="#home" data-tab="home">Home</a>
+    <a href="#s1" data-tab="s1">Section 1 <small>Week 1</small></a>
+    <a href="#s2" data-tab="s2">Section 2 <small>Week 2</small></a>
+    <a href="#s3" data-tab="s3">Section 3 <small>Week 3</small></a>
+    <a href="#s4" data-tab="s4">Section 4 <small>Week 4</small></a>
+    <a href="#words" data-tab="words">Word list</a>
     <button id="theme" type="button" aria-label="Switch light or dark theme">Dark mode</button>
   </div>
 </nav>
 
-<header class="hero">
-  <div class="wrap">
-    <h1>Medical billing, made simple</h1>
-    <p>My study notes for the US healthcare system pre-work. Four chapters, one big idea: follow the money from the visit to the final payment.</p>
-    <div class="chips"><span>Revenue cycle</span><span>Copay, coinsurance, deductible</span><span>Out-of-pocket max</span><span>Insurance verification</span></div>
-  </div>
-</header>
+
 
 <main class="wrap">
 
-<!-- CHAPTER 1 -->
-<section id="cycle">
-  <span class="chap">Chapter 1</span>
+<div class="panel" id="home">
+  <section class="hero">
+    <h1>Medical billing, made simple</h1>
+    <p class="lead">My study notes, organized by week. Pick a section to start.</p>
+    <div class="grid g2 weeks">
+      <a class="wk ready" href="#s1" data-go="s1"><span class="pill ok">Ready</span><h3>Section 1 · Week 1</h3><p><b>M1</b> US Healthcare System<br><b>M2</b> HIPAA <em>(coming soon)</em></p></a>
+      <a class="wk" href="#s2" data-go="s2"><span class="pill">Coming soon</span><h3>Section 2 · Week 2</h3><p><b>M3</b> and <b>M4</b> Medical Coding Review</p></a>
+      <a class="wk" href="#s3" data-go="s3"><span class="pill">Coming soon</span><h3>Section 3 · Week 3</h3><p>Modules to be added</p></a>
+      <a class="wk" href="#s4" data-go="s4"><span class="pill">Coming soon</span><h3>Section 4 · Week 4</h3><p>Modules to be added</p></a>
+    </div>
+  </section>
+  <div class="pager"><span></span><a href="#s1" data-go="s1">Start with Section 1</a></div>
+</div>
+
+<div class="panel" id="s1">
+  <div class="mod" id="m1">
+    <span class="pill light">Section 1 · Week 1</span>
+    <h2>M1 · US Healthcare System</h2>
+    <p>Revenue cycle, patient costs, and checking coverage.</p>
+  </div>
+  <div class="subnav" aria-label="In this module">
+    <a href="#cycle" data-spy="cycle">Revenue cycle</a><a href="#copay" data-spy="copay">Copay and more</a><a href="#oop" data-spy="oop">OOP max</a><a href="#verify" data-spy="verify">Verification</a><a href="#check" data-spy="check">Quick check</a><a href="#m2" data-spy="m2">M2 HIPAA</a>
+  </div>
+  <section id="cycle">
+  <span class="chap">M1 · Chapter 1</span>
   <h2>The healthcare revenue cycle</h2>
   <p class="lead">It is the path money takes through a medical practice. It starts when a patient is referred for care and ends only when every dollar owed has been collected.</p>
 
@@ -182,7 +236,7 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
 
 <!-- CHAPTER 2 -->
 <section id="copay">
-  <span class="chap">Chapter 2</span>
+  <span class="chap">M1 · Chapter 2</span>
   <h2>Copays, coinsurance and deductibles</h2>
   <p class="lead">Three ways a patient shares the cost of care. They sound alike, so here they are side by side.</p>
 
@@ -206,7 +260,7 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
 
 <!-- CHAPTER 3 -->
 <section id="oop">
-  <span class="chap">Chapter 3</span>
+  <span class="chap">M1 · Chapter 3</span>
   <h2>Out-of-pocket (OOP) maximum</h2>
   <p class="lead">The most a patient will pay for covered care in one plan year. Once they hit it, insurance covers the rest.</p>
 
@@ -241,7 +295,7 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
 
 <!-- CHAPTER 4 -->
 <section id="verify">
-  <span class="chap">Chapter 4</span>
+  <span class="chap">M1 · Chapter 4</span>
   <h2>Insurance verification</h2>
   <p class="lead">How a practice confirms with the insurer what a patient's plan will cover for a specific service. Done before the visit, it shows whether the service is covered and what the patient will owe.</p>
 
@@ -280,9 +334,39 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
   <details><summary>Software shows the service type is covered but not the procedure code. Next step?</summary><p class="ans">Call the insurer with the standard script and the code ready.</p></details>
 </section>
 
-<!-- GLOSSARY -->
-<section id="words">
-  <h2>Word list</h2>
+<div class="mod" id="m2">
+    <span class="pill light">Section 1 · Week 1</span>
+    <h2>M2 · HIPAA</h2>
+    <p>Privacy and security of patient information.</p>
+  </div>
+  <div class="soon"><span class="pill">Coming soon</span><h3>M2 notes are on the way</h3><p>Notes will appear here, right under M1. Expect:</p><ul><li>Chapter notes with simple pictures</li><li>Quick check questions</li><li>New words for the Word list</li></ul></div>
+  <div class="pager"><a href="#home" data-go="home">Home</a><a href="#s2" data-go="s2">Section 2</a></div>
+</div>
+
+<div class="panel" id="s2">
+  <div class="mod"><span class="pill light">Section 2 · Week 2</span><h2>Medical coding review</h2><p>Two modules, one big skill: turning care into codes.</p></div>
+  <div class="grid g2">
+    <div class="soon"><span class="pill">Coming soon</span><h3>M3 · Medical Coding Review, Part 1</h3><p>Pre-work course and class notes.</p><ul><li>Chapter notes with simple pictures</li><li>Quick check questions</li><li>New words for the Word list</li></ul></div><div class="soon"><span class="pill">Coming soon</span><h3>M4 · Medical Coding Review, Part 2</h3><p>Pre-work course and class notes.</p><ul><li>Chapter notes with simple pictures</li><li>Quick check questions</li><li>New words for the Word list</li></ul></div>
+  </div>
+  <div class="pager"><a href="#s1" data-go="s1">Section 1</a><a href="#s3" data-go="s3">Section 3</a></div>
+</div>
+
+<div class="panel" id="s3">
+  <div class="mod"><span class="pill light">Section 3 · Week 3</span><h2>Week 3</h2><p>Modules will be listed here once the week starts.</p></div>
+  <div class="soon"><span class="pill">Coming soon</span><h3>Week 3 notes are on the way</h3><p>Each module will get its own block, like M1 in Section 1.</p><ul></ul></div>
+  <div class="pager"><a href="#s2" data-go="s2">Section 2</a><a href="#s4" data-go="s4">Section 4</a></div>
+</div>
+
+<div class="panel" id="s4">
+  <div class="mod"><span class="pill light">Section 4 · Week 4</span><h2>Week 4</h2><p>Modules will be listed here once the week starts.</p></div>
+  <div class="soon"><span class="pill">Coming soon</span><h3>Week 4 notes are on the way</h3><p>Each module will get its own block, like M1 in Section 1.</p><ul></ul></div>
+  <div class="pager"><a href="#s3" data-go="s3">Section 3</a><a href="#words" data-go="words">Word list</a></div>
+</div>
+
+<div class="panel" id="words">
+<section>
+<h2>Word list</h2>
+  <p class="lead">Every term from all weeks. New terms get added as modules arrive.</p>
   <input id="q" type="search" placeholder="Search a term, like A/R or adjudication" aria-label="Search the word list">
   <div class="scroll"><table id="gloss">
     <tr><th>A/R (accounts receivable)</th><td>Money owed to the practice that has not been collected yet.</td></tr>
@@ -302,10 +386,13 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
     <tr><th>OOP maximum</th><td>The most a patient pays for covered care in one plan year.</td></tr>
     <tr><th>Procedure code</th><td>Describes what was done for the patient (CPT/HCPCS).</td></tr>
   </table></div>
+
 </section>
+<div class="pager"><a href="#s4" data-go="s4">Section 4</a><a href="#home" data-go="home">Home</a></div>
+</div>
 
 </main>
-<footer>Study notes from the IPS Learning Institute pre-work modules.</footer>
+<footer>Study notes from the IPS Learning Institute modules.</footer>
 
 <script>
 // Out-of-pocket calculator
@@ -338,6 +425,42 @@ document.getElementById("q").addEventListener("input",function(e){
     r.style.display=r.textContent.toLowerCase().indexOf(t)>-1?"":"none";
   });
 });
+
+// Section tabs (works inside sandboxed previews: no history API, no storage)
+(function(){
+  var ids=["home","s1","s2","s3","s4","words"];
+  function show(id,noScroll){
+    if(ids.indexOf(id)<0)id="home";
+    ids.forEach(function(i){document.getElementById(i).classList.toggle("on",i===id)});
+    document.querySelectorAll("nav a[data-tab]").forEach(function(a){
+      var on=a.dataset.tab===id;a.classList.toggle("cur",on);
+      if(on)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
+    });
+    if(!noScroll)window.scrollTo(0,0);
+    spy();
+  }
+  document.addEventListener("click",function(e){
+    var a=e.target.closest("a[data-tab],a[data-go]");
+    if(a){e.preventDefault();var id=a.dataset.tab||a.dataset.go;show(id);try{location.hash=id}catch(_){}return}
+    var l=e.target.closest(".subnav a");
+    if(l){e.preventDefault();var t=document.getElementById(l.getAttribute("href").slice(1));if(t)t.scrollIntoView({behavior:"smooth"})}
+  });
+  // highlight the module part you are reading
+  function spy(){
+    var links=document.querySelectorAll(".subnav a");if(!links.length)return;
+    var cur=null,y=170;
+    links.forEach(function(l){
+      var t=document.getElementById(l.dataset.spy);
+      if(t&&t.getBoundingClientRect().top<=y)cur=l;
+    });
+    links.forEach(function(l){l.classList.toggle("on",l===cur)});
+  }
+  var top=document.createElement("button");top.className="totop";top.type="button";top.textContent="↑";top.setAttribute("aria-label","Back to top");
+  top.onclick=function(){window.scrollTo({top:0,behavior:"smooth"})};document.body.appendChild(top);
+  window.addEventListener("scroll",function(){spy();top.classList.toggle("show",window.scrollY>500)},{passive:true});
+  var h="";try{h=location.hash.slice(1)}catch(_){}
+  show(ids.indexOf(h)>-1?h:"home",true);
+})();
 
 // Theme toggle
 (function(){
