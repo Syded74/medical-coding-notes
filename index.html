@@ -142,6 +142,16 @@ nav a.cur small{color:inherit;opacity:.85}
 .pager a:first-child:not(:only-child){background:transparent;color:var(--teal);border:2px solid var(--teal)}
 .totop{position:fixed;right:16px;bottom:16px;width:44px;height:44px;border-radius:50%;border:none;background:var(--teal);color:var(--bg);font-size:20px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .2s}
 .totop.show{opacity:1;pointer-events:auto}
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin:14px 0}
+.flow .st{flex:1 1 150px;background:var(--card);border:1px solid var(--line);border-top:6px solid var(--teal);border-radius:12px;padding:12px 14px}
+.flow .st:nth-child(3){border-top-color:var(--gold)}
+.flow .st:nth-child(5){border-top-color:var(--ok)}
+.flow .st b{display:block}
+.flow .st span{color:var(--soft);font-size:.95rem}
+.flow .ar{align-self:center;font-size:1.5rem;color:var(--soft)}
+.big{font-family:"Bricolage Grotesque",sans-serif;font-size:2.2rem;font-weight:800;color:var(--teal);line-height:1}
+.num{display:inline-flex;width:30px;height:30px;border-radius:50%;background:var(--gold);color:#18232f;font-weight:800;align-items:center;justify-content:center;margin-right:8px}
+.tag{display:inline-block;background:var(--teal-soft);color:var(--teal);font-weight:700;font-size:14px;padding:1px 10px;border-radius:99px;margin:2px 4px 2px 0}
 footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -170,7 +180,7 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
     <p class="lead">My study notes, organized by week. Pick a section to start.</p>
     <div class="grid g2 weeks">
       <a class="wk ready" href="#s1" data-go="s1"><span class="pill ok">Ready</span><h3>Section 1 · Week 1</h3><p><b>M1</b> US Healthcare System<br><b>M2</b> HIPAA <em>(coming soon)</em></p></a>
-      <a class="wk" href="#s2" data-go="s2"><span class="pill">Coming soon</span><h3>Section 2 · Week 2</h3><p><b>M3</b> and <b>M4</b> Medical Coding Review</p></a>
+      <a class="wk ready" href="#s2" data-go="s2"><span class="pill ok">M3 ready</span><h3>Section 2 · Week 2</h3><p><b>M3</b> Medical Coding Review, Part 1<br><b>M4</b> Part 2 <em>(coming soon)</em></p></a>
       <a class="wk" href="#s3" data-go="s3"><span class="pill">Coming soon</span><h3>Section 3 · Week 3</h3><p>Modules to be added</p></a>
       <a class="wk" href="#s4" data-go="s4"><span class="pill">Coming soon</span><h3>Section 4 · Week 4</h3><p>Modules to be added</p></a>
     </div>
@@ -344,10 +354,146 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
 </div>
 
 <div class="panel" id="s2">
-  <div class="mod"><span class="pill light">Section 2 · Week 2</span><h2>Medical coding review</h2><p>Two modules, one big skill: turning care into codes.</p></div>
-  <div class="grid g2">
-    <div class="soon"><span class="pill">Coming soon</span><h3>M3 · Medical Coding Review, Part 1</h3><p>Pre-work course and class notes.</p><ul><li>Chapter notes with simple pictures</li><li>Quick check questions</li><li>New words for the Word list</li></ul></div><div class="soon"><span class="pill">Coming soon</span><h3>M4 · Medical Coding Review, Part 2</h3><p>Pre-work course and class notes.</p><ul><li>Chapter notes with simple pictures</li><li>Quick check questions</li><li>New words for the Word list</li></ul></div>
+  <div class="mod" id="m3">
+    <span class="pill light">Section 2 · Week 2</span>
+    <h2>M3 · Medical Coding Review, Part 1</h2>
+    <p>Pre-work course: what billing and coding are, how they differ, and how to get started.</p>
   </div>
+  <div class="subnav" aria-label="In this module">
+    <a href="#l1" data-spy="l1">Billing and coding</a><a href="#l2" data-spy="l2">Biller vs coder</a><a href="#l3" data-spy="l3">Getting started</a><a href="#l4" data-spy="l4">Certification</a><a href="#m3check" data-spy="m3check">Quick check</a><a href="#m4" data-spy="m4">M4</a>
+  </div>
+
+  <section id="l1">
+    <span class="chap">M3 · Lesson 1</span>
+    <h2>Introduction to medical billing</h2>
+    <p class="lead">After you leave the doctor's office, two steps work hand in hand so the practice gets paid: medical coding, then medical billing.</p>
+
+    <div class="flow" role="img" aria-label="Doctor documents, coder writes codes, biller sends claim, insurer pays">
+      <div class="st"><b>1. Provider documents</b><span>Notes on the visit</span></div><div class="ar">→</div>
+      <div class="st"><b>2. Coder translates</b><span>Notes become diagnosis and procedure codes</span></div><div class="ar">→</div>
+      <div class="st"><b>3. Biller sends the claim</b><span>Codes go to the insurer so money can come in</span></div>
+    </div>
+
+    <div class="grid g2 vs">
+      <div class="card a"><h4>Medical coding</h4><p style="margin:0">Comes first. Turns what was done and documented into the billable language of <b>diagnosis</b> codes and <b>procedure</b> codes.</p></div>
+      <div class="card b"><h4>Medical billing</h4><p style="margin:0">Takes those codes, puts them on the claim, and sends it to the insurer. Think of it as translating services into dollars.</p></div>
+    </div>
+
+    <h3>The goal: a zero balance</h3>
+    <div class="card"><p style="margin:0">The patient's journey through the practice is the <b>revenue cycle</b>. It should end back at <span class="big" style="font-size:1.4rem">$0</span>: the insurer owes nothing and the patient owes nothing, because the services were paid for.</p></div>
+
+    <h3>Why it matters</h3>
+    <div class="grid g3">
+      <div class="card"><b>Providers get paid</b><br>Only for services that were really provided and documented.</div>
+      <div class="card"><b>Fair processing</b><br>Standard codes mean insurers understand claims the same way.</div>
+      <div class="card"><b>Accurate records</b><br>Health and financial records stay consistent.</div>
+    </div>
+
+    <h3>Two types of billing</h3>
+    <div class="grid g2 vs">
+      <div class="card a"><h4>Professional billing</h4><ul><li>Physician services and outpatient claims</li><li>Example: a check-up at a local clinic</li></ul></div>
+      <div class="card b"><h4>Institutional billing</h4><ul><li>Facility costs: hospitals, inpatient clinics, nursing facilities</li><li>Example: a three-night hospital stay</li></ul></div>
+    </div>
+    <p style="color:var(--soft)">They use different forms, with different codes and details about what was done and where.</p>
+    <div class="tip good"><b>Scenario</b>A hospital stay after surgery: the facility costs are <b>institutional billing</b>. The surgeons' services would be professional billing.</div>
+  </section>
+
+  <section id="l2">
+    <span class="chap">M3 · Lesson 2</span>
+    <h2>Medical billing vs medical coding</h2>
+    <p class="lead">Both live in the revenue cycle, but the work feels different.</p>
+
+    <div class="grid g2 vs">
+      <div class="card a"><h4>Coder: the clinical story</h4><ul><li>Reads documentation, provider notes and pathology reports</li><li>Assigns standardized code sets</li><li>Work style: investigative, deep research</li><li>Often grows into auditing</li></ul></div>
+      <div class="card b"><h4>Biller: the claim's journey</h4><ul><li>Tracks accounts receivable</li><li>Follows up with insurance payers</li><li>Manages denials</li><li>Bills the leftover balance to the patient</li><li>Work style: interactive problem-solving, calling payers</li></ul></div>
+    </div>
+
+    <div class="tip warn"><b>Easy mix-ups</b>Reviewing pathology reports to assign codes is <b>coding</b>. Documenting symptoms and exam notes is the <b>doctor's</b> job. Translating notes into diagnosis codes is the <b>coder's</b> job.</div>
+
+    <h3>Medical auditing</h3>
+    <p>Reviewing charts proactively to spot documentation gaps and make sure the practice stays compliant. Practices should self-audit regularly instead of waiting for an outside audit. It works like a mirror.</p>
+    <h3>Where coders look when unsure</h3>
+    <div class="card"><span class="tag">CMS website</span><span class="tag">Insurance policies</span><span class="tag">Coding Clinic (AHA)</span><span class="tag">CPT Assistant (AMA)</span><span class="tag">Federal Register</span><p style="margin:10px 0 0;color:var(--soft)">Use official sources, not blogs or forums.</p></div>
+    <div class="tip good"><b>Scenario</b>A new coder is unsure about a guideline and the team is busy. Research the official sources first. If it is still unclear, hold the chart and ask the supervisor. Never guess or skip it.</div>
+    <div class="tip"><b>Not a side gig</b>Coding involves anatomy, medical terminology and complex guidelines, so it cannot be learned over a quick stretch of time.</div>
+  </section>
+
+  <section id="l3">
+    <span class="chap">M3 · Lesson 3</span>
+    <h2>Getting into medical billing and coding</h2>
+    <p class="lead">You do not need an expensive degree. Clinics and hospitals often value communication and organization. The trap: employers want experience, but you need a job to get experience. These three tips help you break the loop.</p>
+
+    <div class="grid g3">
+      <div class="card"><p style="margin-top:0"><span class="num">1</span><b>Take a course</b></p>Online or in person, in the style that fits you.</div>
+      <div class="card"><p style="margin-top:0"><span class="num">2</span><b>Get in the door</b></p>Apply for any entry-level role at a health organization: scanning, front desk, scheduling. Build relationships, then move into the department you want. Many employers train or even pay for it.</div>
+      <div class="card"><p style="margin-top:0"><span class="num">3</span><b>Find a mentor</b></p>Mentorship programs can mean free training and a path to being hired. Example: AAPC with Mentor City. Also market yourself on LinkedIn.</div>
+    </div>
+
+    <h3>Entry-level roles to aim for</h3>
+    <div class="grid g2">
+      <div class="card"><b>Good starting points</b><ul style="margin:6px 0 0"><li>Document scanning and records filing</li><li>Front desk or reception support</li><li>Patient scheduling and intake</li></ul></div>
+      <div class="card"><b>Too advanced for day one</b><ul style="margin:6px 0 0"><li>Certified coding auditor</li><li>Revenue cycle director</li></ul></div>
+    </div>
+
+    <h3>Pick a course that matches how you learn</h3>
+    <div class="scroll"><table>
+      <tr><th>Visual learner</th><td>Video demos, chart breakdowns, illustrated workflows</td></tr>
+      <tr><th>Auditory learner</th><td>Lecture webinars, discussions, audio walkthroughs</td></tr>
+      <tr><th>Kinesthetic learner</th><td>Practice software, real case simulations, data-entry exercises</td></tr>
+    </table></div>
+    <div class="tip good"><b>Scenario</b>Maria has no experience, no money for tuition, and wants one-on-one coaching with a possible job. Best fit: a formal mentorship program.</div>
+    <div class="tip"><b>Good to know</b>When specialized roles open up, healthcare systems often hire <b>internally</b> first. Getting in the door early pays off.</div>
+  </section>
+
+  <section id="l4">
+    <span class="chap">M3 · Lesson 4</span>
+    <h2>Why a certified coder matters</h2>
+    <p class="lead">A clean claim starts with correct codes. Small clinics sometimes let an office manager or seasoned biller code, but a certified coder protects revenue and compliance.</p>
+
+    <div class="grid g2">
+      <div class="card"><b>Proves competence</b><br>Knowledge across specialties, not just one office.</div>
+      <div class="card"><b>Adaptable</b><br>A broad foundation, not "how we do it here."</div>
+      <div class="card"><b>Stays current</b><br>Required continuing education units (CEUs), such as 36 to 40 hours every two years.</div>
+      <div class="card"><b>Lowers risk</b><br>Accurate coding tells the patient's real story, so fewer audits and denials.</div>
+    </div>
+
+    <h3>Two credentials</h3>
+    <div class="grid g2 vs">
+      <div class="card a"><h4>CPC</h4><p style="margin:0">Certified Professional Coder, from <b>AAPC</b>.</p></div>
+      <div class="card b"><h4>CCS</h4><p style="margin:0">Certified Coding Specialist, from <b>AHIMA</b>.</p></div>
+    </div>
+    <p>Certification covers organ systems, E/M, pathology, lab, surgery and radiology, plus national coding conventions and legal guidelines. It does <b>not</b> guarantee every claim is approved.</p>
+
+    <h3>Why repeated codes raise red flags</h3>
+    <div class="card">
+      <p style="margin-top:0">Diagnoses and modifiers tell the story of what happened, why, and what decisions were made. Insurers run <b>payer analytics software</b> that flags unusual patterns.</p>
+      <div class="bar" role="img" aria-label="Seventy-five percent of patients billed the same code"><div class="pat" style="width:75%">Same code: 75%</div><div class="ins" style="width:25%">Other</div></div>
+      <p style="margin-bottom:0;color:var(--soft)">If a practice bills the same code for about 75% of patients regardless of age, sex or complexity, the account is likely to be flagged for an audit.</p>
+    </div>
+    <div class="tip"><b>Hiring tip</b>In a hands-on coding test, applicants should be allowed to bring their own official code books and medical dictionaries.</div>
+  </section>
+
+  <section id="m3check">
+    <h2>M3 quick check</h2>
+    <p class="lead">Tap a question to reveal the answer.</p>
+    <details><summary>What does a medical coder do?</summary><p class="ans">Translates the doctor's clinical notes into standardized, billable codes.</p></details>
+    <details><summary>Billing and coding together drive the ___ cycle.</summary><p class="ans">Revenue.</p></details>
+    <details><summary>Match: diagnosis codes, procedure codes</summary><ul><li><b>Diagnosis codes:</b> why the patient was seen (the condition)</li><li><b>Procedure codes:</b> what services, tests or treatments were done</li></ul></details>
+    <details><summary>Which tasks belong to the biller?</summary><p class="ans">Tracking accounts receivable, following up with payers, managing denials, and billing the remaining balance.</p></details>
+    <details><summary>Match: AAPC, AHIMA</summary><ul><li><b>AAPC:</b> CPC credential</li><li><b>AHIMA:</b> CCS credential</li></ul></details>
+    <details><summary>What is the "experience trap"?</summary><p class="ans">Needing experience to get hired, but needing a job to get experience.</p></details>
+    <details><summary>Which style fits a kinesthetic learner?</summary><p class="ans">Practice software, case simulations and data-entry exercises.</p></details>
+    <details><summary>Why can experience alone leave blind spots?</summary><p class="ans">The coder learns one office's habits and may lack the foundation to adapt when guidelines change.</p></details>
+    <details><summary>Same code on 75% of claims. What happens?</summary><p class="ans">Payer software flags the account for an audit.</p></details>
+  </section>
+
+  <div class="mod" id="m4">
+    <span class="pill light">Section 2 · Week 2</span>
+    <h2>M4 · Medical Coding Review, Part 2</h2>
+    <p>Pre-work course and class notes.</p>
+  </div>
+  <div class="soon"><span class="pill">Coming soon</span><h3>M4 notes are on the way</h3><p>Notes will appear here, right under M3.</p></div>
+
   <div class="pager"><a href="#s1" data-go="s1">Section 1</a><a href="#s3" data-go="s3">Section 3</a></div>
 </div>
 
@@ -370,21 +516,36 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
   <input id="q" type="search" placeholder="Search a term, like A/R or adjudication" aria-label="Search the word list">
   <div class="scroll"><table id="gloss">
     <tr><th>A/R (accounts receivable)</th><td>Money owed to the practice that has not been collected yet.</td></tr>
+    <tr><th>AAPC</th><td>Organization behind the CPC credential. Also linked to Mentor City.</td></tr>
     <tr><th>Adjudication</th><td>The insurer processing a claim, ending in paid or denied.</td></tr>
+    <tr><th>AHIMA</th><td>Organization behind the CCS credential.</td></tr>
     <tr><th>Allowed amount</th><td>The amount the insurer agrees a service is worth. Coinsurance is applied to it.</td></tr>
     <tr><th>Annual reset</th><td>The OOP maximum starting over at the start of the calendar or plan year.</td></tr>
     <tr><th>Auditing</th><td>Checking every stage of the cycle for efficiency and compliance.</td></tr>
     <tr><th>Benefit verification</th><td>Confirming a specific service is covered and at what cost.</td></tr>
+    <tr><th>CCS</th><td>Certified Coding Specialist, from AHIMA.</td></tr>
+    <tr><th>CEUs</th><td>Continuing education units. Required ongoing learning, such as 36 to 40 hours every two years.</td></tr>
     <tr><th>Claim scrubbing</th><td>Software or a coder checking codes for errors before the claim is sent.</td></tr>
+    <tr><th>Coding Clinic</th><td>AHA publication coders use as an official research source.</td></tr>
     <tr><th>Coinsurance</th><td>The patient and insurer splitting a cost by percentage.</td></tr>
     <tr><th>Collections</th><td>Sending an unpaid patient balance to an outside agency.</td></tr>
     <tr><th>Copay</th><td>A flat fee, usually collected at check-in.</td></tr>
+    <tr><th>CPC</th><td>Certified Professional Coder, from AAPC.</td></tr>
+    <tr><th>CPT Assistant</th><td>AMA publication coders use as an official research source.</td></tr>
     <tr><th>Deductible</th><td>What the patient pays before the insurer starts paying.</td></tr>
     <tr><th>Denial management</th><td>Tracking and fixing denied claims to recover payment.</td></tr>
     <tr><th>Diagnosis code</th><td>Describes what is wrong with the patient (ICD-10-CM).</td></tr>
     <tr><th>Eligibility check</th><td>Confirming active coverage plus a few basic numbers.</td></tr>
+    <tr><th>Institutional billing</th><td>Billing for facility costs: hospitals, inpatient clinics and nursing facilities.</td></tr>
+    <tr><th>Medical auditing</th><td>Reviewing charts proactively to find documentation gaps and keep the practice compliant.</td></tr>
+    <tr><th>Medical biller</th><td>Sends claims to insurers, follows up, manages denials and bills the patient's remaining balance.</td></tr>
+    <tr><th>Medical coder</th><td>Translates documentation into standardized, billable diagnosis and procedure codes.</td></tr>
+    <tr><th>Mentor City</th><td>Mentorship platform connected with AAPC that matches newcomers with mentors.</td></tr>
     <tr><th>OOP maximum</th><td>The most a patient pays for covered care in one plan year.</td></tr>
+    <tr><th>Payer analytics software</th><td>Insurer software that checks claims and flags unusual billing patterns.</td></tr>
     <tr><th>Procedure code</th><td>Describes what was done for the patient (CPT/HCPCS).</td></tr>
+    <tr><th>Professional billing</th><td>Billing for physician services and outpatient claims.</td></tr>
+    <tr><th>Zero balance</th><td>The goal of the revenue cycle: the patient and the insurer owe nothing.</td></tr>
   </table></div>
 
 </section>
@@ -447,13 +608,15 @@ document.getElementById("q").addEventListener("input",function(e){
   });
   // highlight the module part you are reading
   function spy(){
-    var links=document.querySelectorAll(".subnav a");if(!links.length)return;
-    var cur=null,y=170;
-    links.forEach(function(l){
-      var t=document.getElementById(l.dataset.spy);
-      if(t&&t.getBoundingClientRect().top<=y)cur=l;
+    document.querySelectorAll(".subnav").forEach(function(nav){
+      if(!nav.offsetParent)return;
+      var links=nav.querySelectorAll("a"),cur=null;
+      links.forEach(function(l){
+        var t=document.getElementById(l.dataset.spy);
+        if(t&&t.getBoundingClientRect().top<=170)cur=l;
+      });
+      links.forEach(function(l){l.classList.toggle("on",l===cur)});
     });
-    links.forEach(function(l){l.classList.toggle("on",l===cur)});
   }
   var top=document.createElement("button");top.className="totop";top.type="button";top.textContent="↑";top.setAttribute("aria-label","Back to top");
   top.onclick=function(){window.scrollTo({top:0,behavior:"smooth"})};document.body.appendChild(top);
