@@ -1,73 +1,352 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Medical Coding & Billing Notes</title>
-  <style>
-    :root{--accent:#2b7a78;--muted:#667085;--bg:#f7fbfb;--card:#ffffff}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
-    body{background:linear-gradient(180deg,var(--bg),#eef7f7);color:#0f1724}
-    .wrap{max-width:980px;margin:36px auto;padding:24px}
-    header{display:flex;align-items:center;gap:16px}
-    .logo{width:56px;height:56px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
-    h1{margin:0;font-size:1.6rem}
-    p.lead{color:var(--muted);margin:6px 0 20px}
-    .grid{display:grid;grid-template-columns:1fr 320px;gap:20px}
-    .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(19,38,41,0.06)}
-    .notes{min-height:420px}
-    .notes h2{margin-top:0}
-    textarea{width:100%;height:260px;border:1px solid #e6eef0;border-radius:8px;padding:12px;font-family:inherit;resize:vertical}
-    .resources ul{padding-left:18px;margin:8px 0}
-    footer{margin-top:18px;color:var(--muted);font-size:.9rem}
-    @media (max-width:880px){.grid{grid-template-columns:1fr} .resources{order:-1}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Medical Billing Study Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2f6f5; --card:#ffffff; --ink:#18232f; --soft:#556574; --line:#d6e0df;
+  --teal:#0f5c63; --teal-soft:#d7ecea; --gold:#f2a541; --gold-soft:#fdf0d9;
+  --rose:#c8445a; --rose-soft:#f9e1e5; --ok:#2e7d54; --ok-soft:#ddf1e5;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1a1f; --card:#17252c; --ink:#e8f0ef; --soft:#9fb2b8; --line:#2a3d45;
+    --teal:#6cc5cc; --teal-soft:#1c3a40; --gold:#f2b35c; --gold-soft:#3a2f1a;
+    --rose:#ee7a8d; --rose-soft:#3a1f26; --ok:#6fd09a; --ok-soft:#173326;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1a1f; --card:#17252c; --ink:#e8f0ef; --soft:#9fb2b8; --line:#2a3d45;
+  --teal:#6cc5cc; --teal-soft:#1c3a40; --gold:#f2b35c; --gold-soft:#3a2f1a;
+  --rose:#ee7a8d; --rose-soft:#3a1f26; --ok:#6fd09a; --ok-soft:#173326;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Source Sans 3",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;line-height:1.15;margin:0}
+a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+
+nav{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:6px;align-items:center;overflow-x:auto;padding-top:10px;padding-bottom:10px}
+nav a{white-space:nowrap;text-decoration:none;color:var(--ink);padding:6px 12px;border-radius:99px;font-weight:600;font-size:15px}
+nav a:hover{background:var(--teal-soft)}
+nav button{margin-left:auto;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:99px;padding:6px 12px;cursor:pointer;font:inherit;font-size:15px}
+
+header.hero{padding:56px 0 36px}
+header.hero h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:800;max-width:14ch}
+header.hero p{max-width:52ch;color:var(--soft);font-size:1.15rem;margin:14px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chips span{background:var(--teal-soft);color:var(--teal);padding:6px 14px;border-radius:99px;font-weight:600;font-size:15px}
+
+section{padding:44px 0 8px}
+.chap{display:inline-block;background:var(--teal);color:var(--bg);font-weight:700;padding:3px 12px;border-radius:6px;font-size:15px;margin-bottom:10px}
+section h2{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800}
+.lead{font-size:1.15rem;max-width:62ch;margin:12px 0 22px}
+h3{font-size:1.25rem;margin:26px 0 10px}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.tip{border-left:6px solid var(--gold);background:var(--gold-soft);padding:14px 18px;border-radius:0 12px 12px 0;margin:18px 0}
+.warn{border-left-color:var(--rose);background:var(--rose-soft)}
+.good{border-left-color:var(--ok);background:var(--ok-soft)}
+.tip b:first-child{display:block;margin-bottom:2px}
+
+/* revenue cycle journey */
+.phase{margin:26px 0 0}
+.phase>h3{margin:0 0 10px;display:flex;align-items:center;gap:10px}
+.phase>h3 i{font-style:normal;font-size:.8rem;font-family:"Source Sans 3",sans-serif;font-weight:600;background:var(--gold-soft);color:var(--ink);padding:2px 10px;border-radius:99px}
+.track{list-style:none;margin:0;padding:0 0 0 22px;border-left:4px dashed var(--teal)}
+.track li{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:0 0 12px 18px}
+.track li::before{content:"";position:absolute;left:-39px;top:16px;width:18px;height:18px;border-radius:50%;background:var(--gold);border:4px solid var(--bg);box-shadow:0 0 0 2px var(--teal)}
+.track li b{display:block}
+.track li span{color:var(--soft);font-size:.97rem}
+.track li.end::before{background:var(--ok)}
+.track li.alt::before{background:var(--rose)}
+
+/* money bar */
+.bar{display:flex;height:54px;border-radius:12px;overflow:hidden;font-weight:700;color:#fff;margin:14px 0 6px}
+.bar div{display:flex;align-items:center;justify-content:center}
+.ins{background:var(--teal);width:80%}
+.pat{background:var(--rose);width:20%}
+.bar-key{display:flex;justify-content:space-between;color:var(--soft);font-size:.95rem}
+.calc{font-family:"Bricolage Grotesque",sans-serif;font-size:1.3rem;font-weight:700}
+
+/* oop meter */
+.meter{height:34px;background:var(--line);border-radius:99px;overflow:hidden;margin:14px 0 8px}
+.meter div{height:100%;background:var(--gold);width:0;transition:width .25s ease;border-radius:99px}
+.meter.full div{background:var(--ok)}
+input[type=range]{width:100%;accent-color:var(--teal)}
+.out{font-weight:600}
+
+/* compare tables */
+.vs h4{margin:0 0 6px;font-family:"Bricolage Grotesque",sans-serif;font-size:1.15rem}
+.vs .card.a{border-top:6px solid var(--teal)}
+.vs .card.b{border-top:6px solid var(--gold)}
+.vs .card.c{border-top:6px solid var(--rose)}
+.vs ul{margin:8px 0 0;padding-left:20px}
+
+/* quick-check */
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:10px 0}
+summary{cursor:pointer;font-weight:600}
+details p,details ul{margin:10px 0 0}
+details .ans{color:var(--ok);font-weight:700}
+
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--teal-soft);color:var(--ink);width:34%}
+.scroll{overflow-x:auto}
+#q{width:100%;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit;margin-bottom:12px}
+footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
 </head>
 <body>
+
+<nav aria-label="Sections">
   <div class="wrap">
-    <header>
-      <div class="logo">MC</div>
-      <div>
-        <h1>Medical Coding & Billing — Notes</h1>
-        <p class="lead">A simple notes page for your class. Edit this file in the repo to update your site.</p>
-      </div>
-    </header>
-
-    <main class="grid" role="main">
-      <section class="card notes">
-        <h2>Lecture Notes</h2>
-        <p class="muted">Use the text area below to paste or keep short in-browser notes. For permanent edits, update index.html in the GitHub repository.</p>
-        <textarea placeholder="Paste quick notes from class here...">- Course: Medical Coding & Billing\n- Topic: CPT & ICD-10 Overview\n- Date: 2026-10-13\n\nNotes:\n1) CPT codes categorize services performed by providers.\n2) ICD-10 codes classify diagnoses and reasons for visits.\n3) Verify payer rules and modifiers when billing.\n</textarea>
-
-        <h3 style="margin-top:16px">How to edit</h3>
-        <ol>
-          <li>Go to the repo: <a href="https://github.com/Syded74/medical-coding-notes" target="_blank">github.com/Syded74/medical-coding-notes</a></li>
-          <li>Click index.html → Edit (pencil icon) → Commit changes</li>
-          <li>Refresh the Pages site to see your updates</li>
-        </ol>
-      </section>
-
-      <aside class="card resources">
-        <h2>Resources</h2>
-        <ul>
-          <li><a href="https://www.cms.gov/medicare/coding" target="_blank">CMS — Coding resources</a></li>
-          <li><a href="https://www.ama-assn.org/practice-management/cpt" target="_blank">AMA CPT information</a></li>
-          <li><a href="https://www.cdc.gov/nchs/icd/icd10cm.htm" target="_blank">CDC — ICD-10-CM</a></li>
-        </ul>
-
-        <h3>To-do</h3>
-        <ul>
-          <li>Add lecture-by-date pages</li>
-          <li>Organize codes index (CPT / ICD-10)</li>
-          <li>Enable edit suggestions (or add Markdown files)</li>
-        </ul>
-
-        <footer>
-          Published with GitHub Pages — <a href="https://syded74.github.io/medical-coding-notes/" target="_blank">View site</a>
-        </footer>
-      </aside>
-    </main>
-
+    <a href="#cycle">1. Revenue cycle</a>
+    <a href="#copay">2. Copay and more</a>
+    <a href="#oop">3. OOP max</a>
+    <a href="#verify">4. Verification</a>
+    <a href="#check">Quick check</a>
+    <a href="#words">Words</a>
+    <button id="theme" type="button" aria-label="Switch light or dark theme">Dark mode</button>
   </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Medical billing, made simple</h1>
+    <p>My study notes for the US healthcare system pre-work. Four chapters, one big idea: follow the money from the visit to the final payment.</p>
+    <div class="chips"><span>Revenue cycle</span><span>Copay, coinsurance, deductible</span><span>Out-of-pocket max</span><span>Insurance verification</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- CHAPTER 1 -->
+<section id="cycle">
+  <span class="chap">Chapter 1</span>
+  <h2>The healthcare revenue cycle</h2>
+  <p class="lead">It is the path money takes through a medical practice. It starts when a patient is referred for care and ends only when every dollar owed has been collected.</p>
+
+  <div class="tip"><b>Why it matters</b>Knowing the cycle shows you how one visit becomes revenue, and where that money can get stuck.</div>
+
+  <div class="phase">
+    <h3>Before the visit <i>get ready</i></h3>
+    <ol class="track">
+      <li><b>Referral</b><span>A physician orders care, or the patient refers themselves.</span></li>
+      <li><b>Intake or pre-registration</b><span>The practice collects demographic and insurance details.</span></li>
+    </ol>
+  </div>
+
+  <div class="phase">
+    <h3>During the visit <i>the heart of it</i></h3>
+    <ol class="track" start="3">
+      <li><b>Patient visit and coding</b><span>The provider records <b style="display:inline">diagnosis codes</b> (what is wrong) and <b style="display:inline">procedure codes</b> (what was done). Together they are the birth of the claim.</span></li>
+      <li><b>Code check (sometimes)</b><span>A medical coder or claim-scrubbing software reviews codes for accuracy and compliance.</span></li>
+    </ol>
+  </div>
+
+  <div class="phase">
+    <h3>After the visit <i>get paid</i></h3>
+    <ol class="track" start="5">
+      <li><b>Billing and claim submission</b><span>The claim goes to the insurance company.</span></li>
+      <li><b>Adjudication</b><span>The insurer accepts the claim and processes it. The result is paid or denied.</span></li>
+      <li><b>Payment posting and reconciliation</b><span>The practice records the payment and matches it against the patient's account.</span></li>
+      <li class="alt"><b>Denial management</b><span>Denied claims are tracked, fixed, and worked until payment is recovered.</span></li>
+      <li class="alt"><b>Working the A/R</b><span>Follow up on claims that are neither paid nor denied (accounts receivable).</span></li>
+      <li><b>Patient billing</b><span>After the insurer pays, the leftover balance is billed to the patient.</span></li>
+      <li class="end"><b>Collections</b><span>If the balance stays unpaid after statements, the account usually goes to an outside agency that pursues it until paid in full.</span></li>
+    </ol>
+  </div>
+
+  <div class="tip good"><b>Auditing sits on top of everything</b>Auditing checks every stage to make sure the practice is working efficiently and staying compliant.</div>
+
+  <h3>Before or after the claim is sent?</h3>
+  <div class="grid g2">
+    <div class="card"><b>Before submission</b><ul><li>Collect demographic and insurance details</li><li>Provider records codes</li><li>Coder or software reviews codes</li></ul></div>
+    <div class="card"><b>After submission</b><ul><li>Insurer adjudicates</li><li>Practice posts payment and reconciles</li></ul></div>
+  </div>
+
+  <div class="tip warn"><b>Example: James owes $120</b>The insurer paid its share and the statements went unanswered for months. That is patient responsibility, so it goes to collections. It is not a denial, there is nothing to resubmit, and calling the insurer will not help.</div>
+</section>
+
+<!-- CHAPTER 2 -->
+<section id="copay">
+  <span class="chap">Chapter 2</span>
+  <h2>Copays, coinsurance and deductibles</h2>
+  <p class="lead">Three ways a patient shares the cost of care. They sound alike, so here they are side by side.</p>
+
+  <div class="grid g3 vs">
+    <div class="card a"><h4>Copay</h4><ul><li>A flat, round amount, like $20</li><li>Collected at check-in</li></ul></div>
+    <div class="card b"><h4>Coinsurance</h4><ul><li>A percentage split with the insurer</li><li>Often an odd number</li><li>Billed after the claim is adjudicated</li></ul></div>
+    <div class="card c"><h4>Deductible</h4><ul><li>What the patient pays before the insurer starts paying their share</li></ul></div>
+  </div>
+
+  <h3>Coinsurance, step by step</h3>
+  <div class="card">
+    <p style="margin-top:0">An <b>80/20 split</b> on a visit with a <b>$200 allowed amount</b>:</p>
+    <div class="bar" role="img" aria-label="Insurer pays 80 percent, 160 dollars. Patient pays 20 percent, 40 dollars.">
+      <div class="ins">Insurer $160</div><div class="pat">You $40</div>
+    </div>
+    <div class="bar-key"><span>Insurer pays 80%</span><span>Patient pays 20%</span></div>
+    <p class="calc">0.20 × $200 = $40</p>
+    <p style="margin-bottom:0;color:var(--soft)">It lands on an odd figure because the percentage is applied to the exact allowed amount. You cannot know it until the claim is adjudicated, which is why it is billed afterward.</p>
+  </div>
+</section>
+
+<!-- CHAPTER 3 -->
+<section id="oop">
+  <span class="chap">Chapter 3</span>
+  <h2>Out-of-pocket (OOP) maximum</h2>
+  <p class="lead">The most a patient will pay for covered care in one plan year. Once they hit it, insurance covers the rest.</p>
+
+  <div class="grid g2">
+    <div class="card"><b>What counts toward it</b><ul><li>Copays</li><li>Coinsurance</li><li>Deductibles</li></ul></div>
+    <div class="card"><b>What does not count</b><ul><li>Monthly premiums</li><li>Services the plan does not cover</li></ul></div>
+  </div>
+
+  <h3>Try it: how close is the patient?</h3>
+  <div class="card">
+    <label for="oop-max">OOP maximum: <b id="maxv">$3,000</b></label>
+    <input id="oop-max" type="range" min="1000" max="10000" step="500" value="3000">
+    <label for="oop-paid">Already paid this year: <b id="paidv">$2,500</b></label>
+    <input id="oop-paid" type="range" min="0" max="10000" step="100" value="2500">
+    <div class="meter" id="meter"><div id="fill"></div></div>
+    <p class="out" id="result" aria-live="polite"></p>
+    <label for="oop-bill">New covered expense: <b id="billv">$1,000</b></label>
+    <input id="oop-bill" type="range" min="0" max="10000" step="100" value="1000">
+    <p class="out" id="owe" aria-live="polite"></p>
+  </div>
+
+  <div class="tip warn"><b>Collect carefully</b>Once the maximum is met, the patient owes no more copays, coinsurance or deductibles for covered services. Collecting anyway usually leads to refunds and frustrated patients.</div>
+
+  <h3>Check with the insurer before collecting</h3>
+  <div class="card"><ul style="margin:0">
+    <li>Do my practice's services count toward the maximum?</li>
+    <li>How close is the patient to it this year?</li>
+    <li>Once it is met, does the patient still owe anything for this service?</li>
+  </ul></div>
+  <p><b>Annual reset:</b> the limit starts over each calendar year, or on the plan's own year. A plan with a low limit (around $3,000 to $4,000) can be reached quickly, especially after a surgery.</p>
+</section>
+
+<!-- CHAPTER 4 -->
+<section id="verify">
+  <span class="chap">Chapter 4</span>
+  <h2>Insurance verification</h2>
+  <p class="lead">How a practice confirms with the insurer what a patient's plan will cover for a specific service. Done before the visit, it shows whether the service is covered and what the patient will owe.</p>
+
+  <div class="grid g2 vs">
+    <div class="card a"><h4>Eligibility check</h4><ul><li>Is the person covered?</li><li>Gives a few basics: deductible, in or out of network, copay for a primary care or specialist visit</li><li>No service-specific detail</li></ul></div>
+    <div class="card b"><h4>Benefit verification</h4><ul><li>Is this specific service covered?</li><li>What will it cost the patient?</li><li>Done by phone or with detailed tools</li></ul></div>
+  </div>
+
+  <h3>Your three options</h3>
+  <div class="scroll"><table>
+    <tr><th>Verification software</th><td>Subscription tools like Availity or TriZetto's gateway. Show coverage for a specialty or service type, whether a deductible applies, and the copay or coinsurance. Usually <b>cannot</b> confirm a specific procedure code, and answers are not always black and white.</td></tr>
+    <tr><th>Call the insurer</th><td>Use a standard script written for your specialty and have the procedure codes ready.</td></tr>
+    <tr><th>Outside vendor</th><td>A company that calls insurers for you and gathers details like prior authorization requirements.</td></tr>
+  </table></div>
+
+  <div class="tip"><b>Tips for calling the insurer</b>Reps read answers off their screen, not from deep plan knowledge. Ask short, specific questions, ask them the same way every time, and have the procedure code ready.</div>
+
+  <div class="tip good"><b>Scenario</b>The software shows the copay for the service type but not whether the procedure code is covered. Do not assume it is. Call the insurer with your standard script and the code ready.</div>
+</section>
+
+<!-- QUICK CHECK -->
+<section id="check">
+  <h2>Quick check</h2>
+  <p class="lead">Tap a question to reveal the answer.</p>
+  <details><summary>Which step is the "birth of the claim"?</summary><p class="ans">The visit, when diagnosis and procedure codes are created.</p></details>
+  <details><summary>Match: adjudication, payment posting, denial management, working the A/R, auditing</summary><ul>
+    <li><b>Adjudication:</b> the insurer reviews an accepted claim, ending in paid or denied</li>
+    <li><b>Payment posting and reconciliation:</b> record the payment and match it to the account</li>
+    <li><b>Denial management:</b> work denied claims to recover payment</li>
+    <li><b>Working the A/R:</b> follow up on claims neither paid nor denied</li>
+    <li><b>Auditing:</b> check every stage for efficiency and compliance</li></ul></details>
+  <details><summary>Patient's share of a $200 allowed amount at 80/20?</summary><p class="ans">$40</p></details>
+  <details><summary>$3,000 OOP max, $2,500 paid, then a $1,000 covered bill. What is owed?</summary><p class="ans">$500. Only the first $500 counts toward the cap, then insurance pays the rest.</p></details>
+  <details><summary>Does a monthly premium count toward the OOP max?</summary><p class="ans">No.</p></details>
+  <details><summary>Eligibility check or benefit verification: which confirms a specific service and cost?</summary><p class="ans">Benefit verification.</p></details>
+  <details><summary>Software shows the service type is covered but not the procedure code. Next step?</summary><p class="ans">Call the insurer with the standard script and the code ready.</p></details>
+</section>
+
+<!-- GLOSSARY -->
+<section id="words">
+  <h2>Word list</h2>
+  <input id="q" type="search" placeholder="Search a term, like A/R or adjudication" aria-label="Search the word list">
+  <div class="scroll"><table id="gloss">
+    <tr><th>A/R (accounts receivable)</th><td>Money owed to the practice that has not been collected yet.</td></tr>
+    <tr><th>Adjudication</th><td>The insurer processing a claim, ending in paid or denied.</td></tr>
+    <tr><th>Allowed amount</th><td>The amount the insurer agrees a service is worth. Coinsurance is applied to it.</td></tr>
+    <tr><th>Annual reset</th><td>The OOP maximum starting over at the start of the calendar or plan year.</td></tr>
+    <tr><th>Auditing</th><td>Checking every stage of the cycle for efficiency and compliance.</td></tr>
+    <tr><th>Benefit verification</th><td>Confirming a specific service is covered and at what cost.</td></tr>
+    <tr><th>Claim scrubbing</th><td>Software or a coder checking codes for errors before the claim is sent.</td></tr>
+    <tr><th>Coinsurance</th><td>The patient and insurer splitting a cost by percentage.</td></tr>
+    <tr><th>Collections</th><td>Sending an unpaid patient balance to an outside agency.</td></tr>
+    <tr><th>Copay</th><td>A flat fee, usually collected at check-in.</td></tr>
+    <tr><th>Deductible</th><td>What the patient pays before the insurer starts paying.</td></tr>
+    <tr><th>Denial management</th><td>Tracking and fixing denied claims to recover payment.</td></tr>
+    <tr><th>Diagnosis code</th><td>Describes what is wrong with the patient (ICD-10-CM).</td></tr>
+    <tr><th>Eligibility check</th><td>Confirming active coverage plus a few basic numbers.</td></tr>
+    <tr><th>OOP maximum</th><td>The most a patient pays for covered care in one plan year.</td></tr>
+    <tr><th>Procedure code</th><td>Describes what was done for the patient (CPT/HCPCS).</td></tr>
+  </table></div>
+</section>
+
+</main>
+<footer>Study notes from the IPS Learning Institute pre-work modules.</footer>
+
+<script>
+// Out-of-pocket calculator
+(function(){
+  var money=function(n){return "$"+n.toLocaleString("en-US")};
+  var max=document.getElementById("oop-max"), paid=document.getElementById("oop-paid"), bill=document.getElementById("oop-bill");
+  function update(){
+    var m=+max.value, p=Math.min(+paid.value,m), b=+bill.value;
+    document.getElementById("maxv").textContent=money(m);
+    document.getElementById("paidv").textContent=money(+paid.value);
+    document.getElementById("billv").textContent=money(b);
+    var pct=Math.min(100,Math.round(p/m*100));
+    document.getElementById("fill").style.width=pct+"%";
+    document.getElementById("meter").className="meter"+(p>=m?" full":"");
+    var left=m-p;
+    document.getElementById("result").textContent = left<=0
+      ? "Maximum met. Insurance covers the rest of the year."
+      : pct+"% of the way there. "+money(left)+" left before insurance covers 100%.";
+    var owe=Math.min(b,left);
+    document.getElementById("owe").textContent="Patient owes on this new bill: "+money(owe)+(b>owe?" (insurance pays the other "+money(b-owe)+")":"");
+  }
+  [max,paid,bill].forEach(function(el){el.addEventListener("input",update)});
+  update();
+})();
+
+// Word list search
+document.getElementById("q").addEventListener("input",function(e){
+  var t=e.target.value.toLowerCase();
+  document.querySelectorAll("#gloss tr").forEach(function(r){
+    r.style.display=r.textContent.toLowerCase().indexOf(t)>-1?"":"none";
+  });
+});
+
+// Theme toggle
+(function(){
+  var root=document.documentElement, btn=document.getElementById("theme");
+  var dark=window.matchMedia("(prefers-color-scheme: dark)").matches;
+  function set(d){root.setAttribute("data-theme",d?"dark":"light");btn.textContent=d?"Light mode":"Dark mode"}
+  set(dark);
+  btn.addEventListener("click",function(){dark=!dark;set(dark)});
+})();
+</script>
 </body>
 </html>
