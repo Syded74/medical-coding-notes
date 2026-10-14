@@ -179,7 +179,7 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
     <h1>Medical billing, made simple</h1>
     <p class="lead">My study notes, organized by week. Pick a section to start.</p>
     <div class="grid g2 weeks">
-      <a class="wk ready" href="#s1" data-go="s1"><span class="pill ok">Ready</span><h3>Section 1 · Week 1</h3><p><b>M1</b> US Healthcare System<br><b>M2</b> HIPAA <em>(coming soon)</em></p></a>
+      <a class="wk ready" href="#s1" data-go="s1"><span class="pill ok">M1 and M2 ready</span><h3>Section 1 · Week 1</h3><p><b>M1</b> US Healthcare System<br><b>M2</b> HIPAA</p></a>
       <a class="wk ready" href="#s2" data-go="s2"><span class="pill ok">M3 ready</span><h3>Section 2 · Week 2</h3><p><b>M3</b> Medical Coding Review, Part 1<br><b>M4</b> Part 2 <em>(coming soon)</em></p></a>
       <a class="wk" href="#s3" data-go="s3"><span class="pill">Coming soon</span><h3>Section 3 · Week 3</h3><p>Modules to be added</p></a>
       <a class="wk" href="#s4" data-go="s4"><span class="pill">Coming soon</span><h3>Section 4 · Week 4</h3><p>Modules to be added</p></a>
@@ -195,7 +195,7 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
     <p>Revenue cycle, patient costs, and checking coverage.</p>
   </div>
   <div class="subnav" aria-label="In this module">
-    <a href="#cycle" data-spy="cycle">Revenue cycle</a><a href="#copay" data-spy="copay">Copay and more</a><a href="#oop" data-spy="oop">OOP max</a><a href="#verify" data-spy="verify">Verification</a><a href="#check" data-spy="check">Quick check</a><a href="#m2" data-spy="m2">M2 HIPAA</a>
+    <a href="#cycle" data-spy="cycle">Revenue cycle</a><a href="#copay" data-spy="copay">Copay and more</a><a href="#oop" data-spy="oop">OOP max</a><a href="#verify" data-spy="verify">Verification</a><a href="#check" data-spy="check">Quick check</a><a href="#m2" data-spy="m2">M2 HIPAA</a><a href="#h1" data-spy="h1">Patient rights</a><a href="#h2" data-spy="h2">Security Rule</a><a href="#m2check" data-spy="m2check">M2 check</a>
   </div>
   <section id="cycle">
   <span class="chap">M1 · Chapter 1</span>
@@ -347,9 +347,66 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
 <div class="mod" id="m2">
     <span class="pill light">Section 1 · Week 1</span>
     <h2>M2 · HIPAA</h2>
-    <p>Privacy and security of patient information.</p>
+    <p>Privacy and security of patient information. Lessons 1 and 2 so far.</p>
   </div>
-  <div class="soon"><span class="pill">Coming soon</span><h3>M2 notes are on the way</h3><p>Notes will appear here, right under M1. Expect:</p><ul><li>Chapter notes with simple pictures</li><li>Quick check questions</li><li>New words for the Word list</li></ul></div>
+
+  <section id="h1">
+    <span class="chap">M2 · Lesson 1</span>
+    <h2>HIPAA and you: patient privacy rights</h2>
+    <p class="lead">HIPAA is the Health Insurance Portability and Accountability Act. It protects health information on paper or on a computer, and it gives patients real rights over it.</p>
+
+    <div class="tip good"><b>Where patients learn their rights</b>The <b>Notice of Privacy Practices (NPP)</b> says exactly how information is used, how it is shared, and how the patient's rights are protected.</div>
+
+    <h3>The patient's six rights</h3>
+    <div class="grid g3">
+      <div class="card"><b>Access</b><br>View or get a copy of their records.</div>
+      <div class="card"><b>Correction</b><br>Ask the provider to fix errors in the record.</div>
+      <div class="card"><b>Statement of disagreement</b><br>Add a written statement that stays on file when they disagree.</div>
+      <div class="card"><b>Accounting of disclosures</b><br>Get a report of who the information was shared with.</div>
+      <div class="card"><b>Confidential contact</b><br>Choose which phone number is used and whether messages can be left.</div>
+      <div class="card"><b>Request limits</b><br>Ask that information not be shared with certain people or organizations.</div>
+    </div>
+
+    <h3>Can the provider share it?</h3>
+    <div class="grid g2">
+      <div class="card" style="border-top:6px solid var(--ok)"><b>Yes, without permission</b><ul style="margin:6px 0 0"><li>Coordinating care between doctors on the patient's treatment</li><li>Reporting flu cases for public health</li></ul></div>
+      <div class="card" style="border-top:6px solid var(--rose)"><b>No, not without consent</b><ul style="margin:6px 0 0"><li>Sending records to the patient's employer</li><li>Giving information to anyone who asks</li></ul></div>
+    </div>
+
+    <div class="tip warn"><b>Scenario</b>An employer calls and asks about a patient's diagnosis. The patient never gave permission. <b>Decline.</b> Employers have no automatic right to health details. Not even just the diagnosis.</div>
+    <div class="tip"><b>If rights are violated</b>The patient can file a complaint with the <b>HHS Office for Civil Rights</b>. Mishandled records bring strict penalties, and the patient must be told right away.</div>
+  </section>
+
+  <section id="h2">
+    <span class="chap">M2 · Lesson 2</span>
+    <h2>HIPAA Security Rule: keeping data secure</h2>
+    <p class="lead">Every practice collects patient information, so every practice must keep it secure and confidential. The Security Rule explains how, with a focus on electronic records.</p>
+
+    <div class="flow">
+      <div class="st"><b>1. Risk analysis</b><span>Start here to decide what safeguards you need</span></div><div class="ar">→</div>
+      <div class="st"><b>2. Put safeguards in place</b><span>Administrative, physical and technical</span></div><div class="ar">→</div>
+      <div class="st"><b>3. Keep it up</b><span>Security is ongoing, not one and done</span></div>
+    </div>
+
+    <div class="grid g3 vs">
+      <div class="card a"><h4>Administrative</h4><p style="margin:0">Office rules and procedures.</p><ul><li>Who can see which records</li><li>Staff training</li></ul></div>
+      <div class="card b"><h4>Physical</h4><p style="margin:0">The building and equipment.</p><ul><li>Screens and printers away from patients</li><li>Security locks and alarms</li></ul></div>
+      <div class="card c"><h4>Technical</h4><p style="margin:0">Hardware and software.</p><ul><li>Strong passwords and virus protection</li><li>Audit logs of record changes</li><li>Encryption of data on hard drives</li></ul></div>
+    </div>
+    <div class="tip"><b>Why it matters</b>Good security keeps data safe from unauthorized eyes and accidental leaks, and helps the practice avoid fines and penalties. More tips are on the HHS Office for Civil Rights site, hhs.gov.</div>
+  </section>
+
+  <section id="m2check">
+    <h2>M2 quick check</h2>
+    <p class="lead">Tap a question to reveal the answer.</p>
+    <details><summary>Which document describes how information is used, shared and protected?</summary><p class="ans">The Notice of Privacy Practices.</p></details>
+    <details><summary>Which situations allow sharing without permission?</summary><p class="ans">Coordinating care among treating doctors, and reporting flu cases for public health. Not sending records to an employer, and not giving them to anyone who asks.</p></details>
+    <details><summary>Match the right to what it does</summary><ul><li><b>Access:</b> view or get a copy of records</li><li><b>Correction:</b> ask to fix errors</li><li><b>Statement of disagreement:</b> add a written statement that stays on file</li><li><b>Accounting of disclosures:</b> a report of who it was shared with</li><li><b>Confidential contact:</b> choose phone number and message rules</li></ul></details>
+    <details><summary>An employer asks about a patient's diagnosis. What should the clinic do?</summary><p class="ans">Decline, because the employer cannot receive it without the patient's consent.</p></details>
+    <details><summary>Where can a patient file a HIPAA complaint?</summary><p class="ans">The HHS Office for Civil Rights.</p></details>
+    <details><summary>What are the three types of safeguards, and what comes first?</summary><p class="ans">Administrative, physical and technical. Start with a risk analysis.</p></details>
+  </section>
+
   <div class="pager"><a href="#home" data-go="home">Home</a><a href="#s2" data-go="s2">Section 2</a></div>
 </div>
 
@@ -517,11 +574,15 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
   <div class="scroll"><table id="gloss">
     <tr><th>A/R (accounts receivable)</th><td>Money owed to the practice that has not been collected yet.</td></tr>
     <tr><th>AAPC</th><td>Organization behind the CPC credential. Also linked to Mentor City.</td></tr>
+    <tr><th>Accounting of disclosures</th><td>A report of who a patient's information has been shared with.</td></tr>
     <tr><th>Adjudication</th><td>The insurer processing a claim, ending in paid or denied.</td></tr>
+    <tr><th>Administrative safeguards</th><td>Office rules and procedures, such as staff access levels and training.</td></tr>
     <tr><th>AHIMA</th><td>Organization behind the CCS credential.</td></tr>
     <tr><th>Allowed amount</th><td>The amount the insurer agrees a service is worth. Coinsurance is applied to it.</td></tr>
     <tr><th>Annual reset</th><td>The OOP maximum starting over at the start of the calendar or plan year.</td></tr>
+    <tr><th>Audit log</th><td>A record of changes made to patient records.</td></tr>
     <tr><th>Auditing</th><td>Checking every stage of the cycle for efficiency and compliance.</td></tr>
+    <tr><th>Authorization</th><td>The patient's written permission to share information, like with an employer.</td></tr>
     <tr><th>Benefit verification</th><td>Confirming a specific service is covered and at what cost.</td></tr>
     <tr><th>CCS</th><td>Certified Coding Specialist, from AHIMA.</td></tr>
     <tr><th>CEUs</th><td>Continuing education units. Required ongoing learning, such as 36 to 40 hours every two years.</td></tr>
@@ -529,6 +590,7 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
     <tr><th>Coding Clinic</th><td>AHA publication coders use as an official research source.</td></tr>
     <tr><th>Coinsurance</th><td>The patient and insurer splitting a cost by percentage.</td></tr>
     <tr><th>Collections</th><td>Sending an unpaid patient balance to an outside agency.</td></tr>
+    <tr><th>Confidential contact</th><td>The patient's choice of phone number and whether messages can be left.</td></tr>
     <tr><th>Copay</th><td>A flat fee, usually collected at check-in.</td></tr>
     <tr><th>CPC</th><td>Certified Professional Coder, from AAPC.</td></tr>
     <tr><th>CPT Assistant</th><td>AMA publication coders use as an official research source.</td></tr>
@@ -536,15 +598,25 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
     <tr><th>Denial management</th><td>Tracking and fixing denied claims to recover payment.</td></tr>
     <tr><th>Diagnosis code</th><td>Describes what is wrong with the patient (ICD-10-CM).</td></tr>
     <tr><th>Eligibility check</th><td>Confirming active coverage plus a few basic numbers.</td></tr>
+    <tr><th>Encryption</th><td>Scrambling data, such as on hard drives, so unauthorized people cannot read it.</td></tr>
+    <tr><th>HHS Office for Civil Rights</th><td>Where patients file complaints about HIPAA violations.</td></tr>
+    <tr><th>HIPAA</th><td>Health Insurance Portability and Accountability Act. Federal law protecting health information and giving patients rights over it.</td></tr>
     <tr><th>Institutional billing</th><td>Billing for facility costs: hospitals, inpatient clinics and nursing facilities.</td></tr>
     <tr><th>Medical auditing</th><td>Reviewing charts proactively to find documentation gaps and keep the practice compliant.</td></tr>
     <tr><th>Medical biller</th><td>Sends claims to insurers, follows up, manages denials and bills the patient's remaining balance.</td></tr>
     <tr><th>Medical coder</th><td>Translates documentation into standardized, billable diagnosis and procedure codes.</td></tr>
     <tr><th>Mentor City</th><td>Mentorship platform connected with AAPC that matches newcomers with mentors.</td></tr>
+    <tr><th>Notice of Privacy Practices (NPP)</th><td>The document explaining how a patient's information is used and shared and what rights they have.</td></tr>
     <tr><th>OOP maximum</th><td>The most a patient pays for covered care in one plan year.</td></tr>
     <tr><th>Payer analytics software</th><td>Insurer software that checks claims and flags unusual billing patterns.</td></tr>
+    <tr><th>PHI (protected health information)</th><td>A patient's health information that HIPAA protects, on paper or electronic.</td></tr>
+    <tr><th>Physical safeguards</th><td>Locks, alarms, and placing screens and printers away from patients.</td></tr>
     <tr><th>Procedure code</th><td>Describes what was done for the patient (CPT/HCPCS).</td></tr>
     <tr><th>Professional billing</th><td>Billing for physician services and outpatient claims.</td></tr>
+    <tr><th>Risk analysis</th><td>The first step in security: finding what safeguards a practice needs.</td></tr>
+    <tr><th>Security Rule</th><td>The HIPAA rule on keeping electronic health data secure.</td></tr>
+    <tr><th>Statement of disagreement</th><td>A written statement a patient adds to their record that stays on file.</td></tr>
+    <tr><th>Technical safeguards</th><td>Hardware and software controls: passwords, virus protection, audit logs, encryption.</td></tr>
     <tr><th>Zero balance</th><td>The goal of the revenue cycle: the patient and the insurer owe nothing.</td></tr>
   </table></div>
 
