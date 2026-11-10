@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Medical Billing Study Notes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <style>
+/* Layout: tabbed study notebook, one panel per week, sticky week nav + module sub-nav */
 :root{
   --bg:#f2f6f5; --card:#ffffff; --ink:#18232f; --soft:#556574; --line:#d6e0df;
   --teal:#0f5c63; --teal-soft:#d7ecea; --gold:#f2a541; --gold-soft:#fdf0d9;
@@ -17,32 +19,32 @@
     --bg:#0f1a1f; --card:#17252c; --ink:#e8f0ef; --soft:#9fb2b8; --line:#2a3d45;
     --teal:#6cc5cc; --teal-soft:#1c3a40; --gold:#f2b35c; --gold-soft:#3a2f1a;
     --rose:#ee7a8d; --rose-soft:#3a1f26; --ok:#6fd09a; --ok-soft:#173326;
+    color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#0f1a1f; --card:#17252c; --ink:#e8f0ef; --soft:#9fb2b8; --line:#2a3d45;
   --teal:#6cc5cc; --teal-soft:#1c3a40; --gold:#f2b35c; --gold-soft:#3a2f1a;
   --rose:#ee7a8d; --rose-soft:#3a1f26; --ok:#6fd09a; --ok-soft:#173326;
+  color-scheme:dark;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:70px}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
 body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Source Sans 3",system-ui,sans-serif}
-h1,h2,h3{font-family:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;line-height:1.15;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--card)}
+h1,h2,h3{font-family:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;line-height:1.15;margin:0;text-wrap:balance}
 a{color:var(--teal)}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+.wrap{max-width:900px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
 
-nav{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
 nav .wrap{display:flex;gap:6px;align-items:center;overflow-x:auto;padding-top:10px;padding-bottom:10px}
 nav a{white-space:nowrap;text-decoration:none;color:var(--ink);padding:6px 12px;border-radius:99px;font-weight:600;font-size:15px}
 nav a:hover{background:var(--teal-soft)}
-nav button{margin-left:auto;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:99px;padding:6px 12px;cursor:pointer;font:inherit;font-size:15px}
-
-header.hero{padding:56px 0 36px}
-header.hero h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:800;max-width:14ch}
-header.hero p{max-width:52ch;color:var(--soft);font-size:1.15rem;margin:14px 0 0}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
-.chips span{background:var(--teal-soft);color:var(--teal);padding:6px 14px;border-radius:99px;font-weight:600;font-size:15px}
+nav button{margin-left:auto;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:99px;padding:6px 12px;cursor:pointer;font:inherit;font-size:15px;white-space:nowrap}
+nav a small{font-weight:400;color:var(--soft);margin-left:4px}
+nav a.cur{background:var(--teal);color:var(--bg)}
+nav a.cur small{color:inherit;opacity:.85}
 
 section{padding:44px 0 8px}
 .chap{display:inline-block;background:var(--teal);color:var(--bg);font-weight:700;padding:3px 12px;border-radius:6px;font-size:15px;margin-bottom:10px}
@@ -50,7 +52,7 @@ section h2{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800}
 .lead{font-size:1.15rem;max-width:62ch;margin:12px 0 22px}
 h3{font-size:1.25rem;margin:26px 0 10px}
 
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;min-width:0}
 .grid{display:grid;gap:14px}
 .g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
 .g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
@@ -59,9 +61,8 @@ h3{font-size:1.25rem;margin:26px 0 10px}
 .good{border-left-color:var(--ok);background:var(--ok-soft)}
 .tip b:first-child{display:block;margin-bottom:2px}
 
-/* revenue cycle journey */
 .phase{margin:26px 0 0}
-.phase>h3{margin:0 0 10px;display:flex;align-items:center;gap:10px}
+.phase>h3{margin:0 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .phase>h3 i{font-style:normal;font-size:.8rem;font-family:"Source Sans 3",sans-serif;font-weight:600;background:var(--gold-soft);color:var(--ink);padding:2px 10px;border-radius:99px}
 .track{list-style:none;margin:0;padding:0 0 0 22px;border-left:4px dashed var(--teal)}
 .track li{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:0 0 12px 18px}
@@ -71,29 +72,26 @@ h3{font-size:1.25rem;margin:26px 0 10px}
 .track li.end::before{background:var(--ok)}
 .track li.alt::before{background:var(--rose)}
 
-/* money bar */
 .bar{display:flex;height:54px;border-radius:12px;overflow:hidden;font-weight:700;color:#fff;margin:14px 0 6px}
-.bar div{display:flex;align-items:center;justify-content:center}
+.bar div{display:flex;align-items:center;justify-content:center;text-align:center;font-size:.95rem;padding:0 6px}
 .ins{background:var(--teal);width:80%}
 .pat{background:var(--rose);width:20%}
-.bar-key{display:flex;justify-content:space-between;color:var(--soft);font-size:.95rem}
+.wo{background:var(--soft)}
+.bar-key{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--soft);font-size:.95rem}
 .calc{font-family:"Bricolage Grotesque",sans-serif;font-size:1.3rem;font-weight:700}
 
-/* oop meter */
 .meter{height:34px;background:var(--line);border-radius:99px;overflow:hidden;margin:14px 0 8px}
 .meter div{height:100%;background:var(--gold);width:0;transition:width .25s ease;border-radius:99px}
 .meter.full div{background:var(--ok)}
 input[type=range]{width:100%;accent-color:var(--teal)}
 .out{font-weight:600}
 
-/* compare tables */
 .vs h4{margin:0 0 6px;font-family:"Bricolage Grotesque",sans-serif;font-size:1.15rem}
 .vs .card.a{border-top:6px solid var(--teal)}
 .vs .card.b{border-top:6px solid var(--gold)}
 .vs .card.c{border-top:6px solid var(--rose)}
 .vs ul{margin:8px 0 0;padding-left:20px}
 
-/* quick-check */
 details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:10px 0}
 summary{cursor:pointer;font-weight:600}
 details p,details ul{margin:10px 0 0}
@@ -102,22 +100,11 @@ details .ans{color:var(--ok);font-weight:700}
 table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden}
 th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
 th{background:var(--teal-soft);color:var(--ink);width:34%}
-.scroll{overflow-x:auto}
+table.cols th{width:auto}
+.scroll{overflow-x:auto;border-radius:12px}
 #q{width:100%;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit;margin-bottom:12px}
 .panel{display:none}.panel.on{display:block}
-nav a.cur{background:var(--teal);color:var(--bg)}
-.mod{margin-top:40px;padding:22px 24px;background:var(--teal);color:var(--bg);border-radius:16px}
-.mod h2{font-size:clamp(1.5rem,4vw,2.1rem)}
-.mod p{margin:6px 0 0;opacity:.9}
-.sub{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.sub a{background:rgba(255,255,255,.18);color:inherit;text-decoration:none;padding:4px 12px;border-radius:99px;font-size:15px;font-weight:600}
-.soon{border:2px dashed var(--line);border-radius:14px;padding:24px;margin-top:20px;color:var(--soft)}
-.soon b{color:var(--ink)}
 
-html{scroll-padding-top:120px}
-nav a small{font-weight:400;color:var(--soft);margin-left:4px}
-nav a.cur{background:var(--teal);color:var(--bg)}
-nav a.cur small{color:inherit;opacity:.85}
 .hero{padding:48px 0 8px}
 .hero h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:800;max-width:14ch}
 .hero .lead{color:var(--soft);margin-bottom:26px}
@@ -129,18 +116,16 @@ nav a.cur small{color:inherit;opacity:.85}
 .pill{display:inline-block;font-size:13px;font-weight:700;padding:2px 12px;border-radius:99px;background:var(--gold-soft);color:var(--ink)}
 .pill.ok{background:var(--ok-soft);color:var(--ok)}
 .pill.light{background:rgba(255,255,255,.2);color:inherit;margin-bottom:8px}
-.mod{margin-top:28px}
-.subnav{position:sticky;top:53px;z-index:4;display:flex;gap:6px;overflow-x:auto;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-top:6px}
+.mod{margin-top:28px;padding:22px 24px;background:var(--teal);color:var(--bg);border-radius:16px}
+.mod h2{font-size:clamp(1.5rem,4vw,2.1rem)}
+.mod p{margin:6px 0 0;opacity:.9}
+.subnav{position:sticky;top:calc(53px + env(safe-area-inset-top,0px));z-index:4;display:flex;gap:6px;overflow-x:auto;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-top:6px}
 .subnav a{white-space:nowrap;text-decoration:none;color:var(--ink);padding:5px 14px;border-radius:99px;font-size:15px;font-weight:600;border:1px solid var(--line);background:var(--card)}
 .subnav a.on{background:var(--gold);border-color:var(--gold);color:#18232f}
-.soon{border:2px dashed var(--line);border-radius:14px;padding:22px;margin-top:18px;background:var(--card)}
-.soon h3{margin:10px 0 4px}
-.soon p{margin:0;color:var(--soft)}
-.soon ul{margin:12px 0 0;padding-left:20px;color:var(--soft)}
 .pager{display:flex;justify-content:space-between;gap:12px;margin:40px 0 0;padding-top:20px;border-top:1px solid var(--line)}
 .pager a{background:var(--teal);color:var(--bg);text-decoration:none;font-weight:700;padding:10px 20px;border-radius:99px}
 .pager a:first-child:not(:only-child){background:transparent;color:var(--teal);border:2px solid var(--teal)}
-.totop{position:fixed;right:16px;bottom:16px;width:44px;height:44px;border-radius:50%;border:none;background:var(--teal);color:var(--bg);font-size:20px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .2s}
+.totop{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:44px;height:44px;border-radius:50%;border:none;background:var(--teal);color:var(--bg);font-size:20px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .2s}
 .totop.show{opacity:1;pointer-events:auto}
 .flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin:14px 0}
 .flow .st{flex:1 1 150px;background:var(--card);border:1px solid var(--line);border-top:6px solid var(--teal);border-radius:12px;padding:12px 14px}
@@ -150,11 +135,14 @@ nav a.cur small{color:inherit;opacity:.85}
 .flow .st span{color:var(--soft);font-size:.95rem}
 .flow .ar{align-self:center;font-size:1.5rem;color:var(--soft)}
 .big{font-family:"Bricolage Grotesque",sans-serif;font-size:2.2rem;font-weight:800;color:var(--teal);line-height:1}
-.num{display:inline-flex;width:30px;height:30px;border-radius:50%;background:var(--gold);color:#18232f;font-weight:800;align-items:center;justify-content:center;margin-right:8px}
+.num{display:inline-flex;width:30px;height:30px;border-radius:50%;background:var(--gold);color:#18232f;font-weight:800;align-items:center;justify-content:center;margin-right:8px;flex:none}
 .tag{display:inline-block;background:var(--teal-soft);color:var(--teal);font-weight:700;font-size:14px;padding:1px 10px;border-radius:99px;margin:2px 4px 2px 0}
+.code{font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;font-size:.92em;background:var(--teal-soft);color:var(--ink);padding:1px 7px;border-radius:6px;white-space:nowrap}
+.note{color:var(--soft);font-size:.97rem}
 footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
+
 </head>
 <body>
 
@@ -170,8 +158,6 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
   </div>
 </nav>
 
-
-
 <main class="wrap">
 
 <div class="panel" id="home">
@@ -179,15 +165,16 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
     <h1>Medical billing, made simple</h1>
     <p class="lead">My study notes, organized by week. Pick a section to start.</p>
     <div class="grid g2 weeks">
-      <a class="wk ready" href="#s1" data-go="s1"><span class="pill ok">M1 and M2 ready</span><h3>Section 1 · Week 1</h3><p><b>M1</b> US Healthcare System<br><b>M2</b> HIPAA</p></a>
-      <a class="wk ready" href="#s2" data-go="s2"><span class="pill ok">M3 ready</span><h3>Section 2 · Week 2</h3><p><b>M3</b> Medical Coding Review, Part 1<br><b>M4</b> Part 2 <em>(coming soon)</em></p></a>
-      <a class="wk" href="#s3" data-go="s3"><span class="pill">Coming soon</span><h3>Section 3 · Week 3</h3><p>Modules to be added</p></a>
-      <a class="wk" href="#s4" data-go="s4"><span class="pill">Coming soon</span><h3>Section 4 · Week 4</h3><p>Modules to be added</p></a>
+      <a class="wk ready" href="#s1" data-go="s1"><span class="pill ok">Ready</span><h3>Section 1 · Week 1</h3><p><b>M1</b> US Healthcare System<br><b>M2</b> HIPAA</p></a>
+      <a class="wk ready" href="#s2" data-go="s2"><span class="pill ok">Ready</span><h3>Section 2 · Week 2</h3><p><b>M3</b> Medical Coding Review, Part 1<br><b>M4</b> Medical Coding Review, Part 2</p></a>
+      <a class="wk ready" href="#s3" data-go="s3"><span class="pill ok">Ready</span><h3>Section 3 · Week 3</h3><p><b>M5</b> Medical Billing, Part 1<br><b>M6</b> Medical Billing, Part 2</p></a>
+      <a class="wk ready" href="#s4" data-go="s4"><span class="pill ok">Ready</span><h3>Section 4 · Week 4</h3><p><b>M7</b> Basic AI Tools<br><b>M8</b> Billing and Coding Practice with AI</p></a>
     </div>
   </section>
   <div class="pager"><span></span><a href="#s1" data-go="s1">Start with Section 1</a></div>
 </div>
 
+<!-- ===================== SECTION 1 (unchanged) ===================== -->
 <div class="panel" id="s1">
   <div class="mod" id="m1">
     <span class="pill light">Section 1 · Week 1</span>
@@ -244,7 +231,6 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
   <div class="tip warn"><b>Example: James owes $120</b>The insurer paid its share and the statements went unanswered for months. That is patient responsibility, so it goes to collections. It is not a denial, there is nothing to resubmit, and calling the insurer will not help.</div>
 </section>
 
-<!-- CHAPTER 2 -->
 <section id="copay">
   <span class="chap">M1 · Chapter 2</span>
   <h2>Copays, coinsurance and deductibles</h2>
@@ -268,7 +254,6 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
   </div>
 </section>
 
-<!-- CHAPTER 3 -->
 <section id="oop">
   <span class="chap">M1 · Chapter 3</span>
   <h2>Out-of-pocket (OOP) maximum</h2>
@@ -303,7 +288,6 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
   <p><b>Annual reset:</b> the limit starts over each calendar year, or on the plan's own year. A plan with a low limit (around $3,000 to $4,000) can be reached quickly, especially after a surgery.</p>
 </section>
 
-<!-- CHAPTER 4 -->
 <section id="verify">
   <span class="chap">M1 · Chapter 4</span>
   <h2>Insurance verification</h2>
@@ -326,7 +310,6 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
   <div class="tip good"><b>Scenario</b>The software shows the copay for the service type but not whether the procedure code is covered. Do not assume it is. Call the insurer with your standard script and the code ready.</div>
 </section>
 
-<!-- QUICK CHECK -->
 <section id="check">
   <h2>Quick check</h2>
   <p class="lead">Tap a question to reveal the answer.</p>
@@ -410,6 +393,7 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
   <div class="pager"><a href="#home" data-go="home">Home</a><a href="#s2" data-go="s2">Section 2</a></div>
 </div>
 
+<!-- ===================== SECTION 2 ===================== -->
 <div class="panel" id="s2">
   <div class="mod" id="m3">
     <span class="pill light">Section 2 · Week 2</span>
@@ -417,7 +401,7 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
     <p>Pre-work course: what billing and coding are, how they differ, and how to get started.</p>
   </div>
   <div class="subnav" aria-label="In this module">
-    <a href="#l1" data-spy="l1">Billing and coding</a><a href="#l2" data-spy="l2">Biller vs coder</a><a href="#l3" data-spy="l3">Getting started</a><a href="#l4" data-spy="l4">Certification</a><a href="#m3check" data-spy="m3check">Quick check</a><a href="#m4" data-spy="m4">M4</a>
+    <a href="#l1" data-spy="l1">Billing and coding</a><a href="#l2" data-spy="l2">Biller vs coder</a><a href="#l3" data-spy="l3">Getting started</a><a href="#l4" data-spy="l4">Certification</a><a href="#m3check" data-spy="m3check">M3 check</a><a href="#m4" data-spy="m4">M4</a><a href="#codes" data-spy="codes">Code sets</a><a href="#forms" data-spy="forms">Claim forms</a><a href="#m4check" data-spy="m4check">M4 check</a>
   </div>
 
   <section id="l1">
@@ -547,76 +531,542 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
   <div class="mod" id="m4">
     <span class="pill light">Section 2 · Week 2</span>
     <h2>M4 · Medical Coding Review, Part 2</h2>
-    <p>Pre-work course and class notes.</p>
+    <p>The coder's toolkit: the code sets, modifiers and claim forms that M3 talked about.</p>
   </div>
-  <div class="soon"><span class="pill">Coming soon</span><h3>M4 notes are on the way</h3><p>Notes will appear here, right under M3.</p></div>
+  <div class="tip"><b>How M4 works in the course</b>M3 and M4 share one pre-work course (7 lessons and a 10-question assessment, 80% to pass). Part 2 was the live class. This block reviews the coding basics the class builds on, so you can name each code set and form on sight.</div>
+
+  <section id="codes">
+    <span class="chap">M4 · Topic 1</span>
+    <h2>The code sets</h2>
+    <p class="lead">A claim tells the payer two things: why the patient was seen, and what was done. Each answer has its own code set.</p>
+
+    <div class="grid g2 vs">
+      <div class="card a"><h4>ICD-10-CM: the "why"</h4><p style="margin:0">Diagnoses, symptoms and conditions. Letter first, then numbers.</p><p style="margin:8px 0 0"><span class="code">J02.9</span> Acute pharyngitis, unspecified</p></div>
+      <div class="card b"><h4>CPT: the "what"</h4><p style="margin:0">Procedures and services a provider performs, including office visits. Five digits.</p><p style="margin:8px 0 0"><span class="code">99213</span> Established patient office visit</p></div>
+      <div class="card c"><h4>HCPCS Level II: the "things"</h4><p style="margin:0">Supplies, equipment, ambulance rides and some drugs. A letter plus four digits.</p><p style="margin:8px 0 0"><span class="code">E0110</span> Crutches</p></div>
+      <div class="card a"><h4>Modifiers: the "details"</h4><p style="margin:0">Two characters added to a CPT or HCPCS code to change how it is read.</p><p style="margin:8px 0 0"><span class="code">-25</span> separate visit, same day as a procedure<br><span class="code">-LT</span> / <span class="code">-RT</span> left or right side</p></div>
+    </div>
+
+    <h3>How the codes fit together on one visit</h3>
+    <div class="flow" role="img" aria-label="Diagnosis supports the visit and the test">
+      <div class="st"><b>Diagnosis</b><span><span class="code">J02.9</span> sore throat</span></div><div class="ar">→</div>
+      <div class="st"><b>Visit</b><span><span class="code">99213</span> office visit</span></div><div class="ar">→</div>
+      <div class="st"><b>Test</b><span><span class="code">87880</span> rapid strep test</span></div>
+    </div>
+    <div class="tip good"><b>Medical necessity</b>Every procedure on the claim needs a diagnosis that explains why it was done. A strep test with no throat complaint on the claim is a likely denial.</div>
+  </section>
+
+  <section id="forms">
+    <span class="chap">M4 · Topic 2</span>
+    <h2>Which claim form?</h2>
+    <p class="lead">Professional and institutional billing (M3, Lesson 1) each have their own form, paper and electronic.</p>
+    <div class="scroll"><table class="cols">
+      <tr><th></th><th>Professional</th><th>Institutional</th></tr>
+      <tr><td><b>Who bills</b></td><td>Physicians, clinics, outpatient providers</td><td>Hospitals, nursing facilities</td></tr>
+      <tr><td><b>Paper form</b></td><td>CMS-1500</td><td>UB-04</td></tr>
+      <tr><td><b>Electronic</b></td><td>837P</td><td>837I</td></tr>
+      <tr><td><b>Main codes</b></td><td>ICD-10-CM, CPT, HCPCS</td><td>ICD-10-CM, revenue codes, ICD-10-PCS for inpatient procedures</td></tr>
+    </table></div>
+  </section>
+
+  <section id="m4check">
+    <h2>M3 and M4 wrap-up</h2>
+    <p class="lead">The highlights the course listed at the end of the pre-work, then a quick check.</p>
+    <div class="card"><ul style="margin:0">
+      <li>Coders turn the doctor's notes into diagnosis and procedure codes. Billers turn those codes into claims and payment.</li>
+      <li>Professional billing covers physician and outpatient services. Institutional billing covers facility costs.</li>
+      <li>Billing follows the financial claim. Coding follows the patient's clinical story.</li>
+      <li>Most employers look for AAPC or AHIMA credentials.</li>
+      <li>Pick a course that fits how you learn, and beat the experience trap with an entry-level role or a mentor.</li>
+      <li>Coders keep certification with 36 to 40 CEU hours every two years.</li>
+      <li>Payers flag repeated billing patterns, so accurate claims prevent audits and clawbacks.</li>
+    </ul></div>
+    <h3>M4 quick check</h3>
+    <details><summary>Which code set answers "why was the patient seen"?</summary><p class="ans">ICD-10-CM.</p></details>
+    <details><summary>Crutches for an ankle injury: which code set?</summary><p class="ans">HCPCS Level II (E0110).</p></details>
+    <details><summary>What is a modifier?</summary><p class="ans">Two characters added to a CPT or HCPCS code to give more detail, such as -25 or -RT.</p></details>
+    <details><summary>A clinic visit bills on which paper form? A hospital stay?</summary><p class="ans">Clinic: CMS-1500. Hospital: UB-04.</p></details>
+    <details><summary>What is a clawback?</summary><p class="ans">A payer taking back money it already paid, after finding the claim was not supported.</p></details>
+  </section>
 
   <div class="pager"><a href="#s1" data-go="s1">Section 1</a><a href="#s3" data-go="s3">Section 3</a></div>
 </div>
 
+<!-- ===================== SECTION 3 ===================== -->
 <div class="panel" id="s3">
-  <div class="mod"><span class="pill light">Section 3 · Week 3</span><h2>Week 3</h2><p>Modules will be listed here once the week starts.</p></div>
-  <div class="soon"><span class="pill">Coming soon</span><h3>Week 3 notes are on the way</h3><p>Each module will get its own block, like M1 in Section 1.</p><ul></ul></div>
+  <div class="mod" id="m5">
+    <span class="pill light">Section 3 · Week 3</span>
+    <h2>M5 · Medical Billing, Part 1</h2>
+    <p>Follow one claim from the biller's desk to the insurer's decision.</p>
+  </div>
+  <div class="subnav" aria-label="In this module">
+    <a href="#b1" data-spy="b1">Biller's job</a><a href="#b2" data-spy="b2">Insurance types</a><a href="#b3" data-spy="b3">Portals</a><a href="#b4" data-spy="b4">Billing vs RCM</a><a href="#b5" data-spy="b5">Eligibility</a><a href="#b6" data-spy="b6">Clean claim</a><a href="#b7" data-spy="b7">Adjudication</a><a href="#m5check" data-spy="m5check">M5 check</a><a href="#m6" data-spy="m6">M6</a><a href="#e1" data-spy="e1">EOB and ERA</a><a href="#e2" data-spy="e2">Rejected vs denied</a><a href="#e3" data-spy="e3">Front desk</a><a href="#e4" data-spy="e4">Timely filing</a><a href="#e5" data-spy="e5">A/R</a><a href="#e6" data-spy="e6">Registration</a><a href="#m6check" data-spy="m6check">M6 check</a>
+  </div>
+
+  <section id="b1">
+    <span class="chap">M5 · Topic 1</span>
+    <h2>What does a medical biller do?</h2>
+    <p class="lead">The course puts the whole job in four verbs. Every claim is a request for payment from someone other than the patient, and the biller sees it through to the end.</p>
+    <div class="grid g2">
+      <div class="card"><p style="margin-top:0"><span class="num">1</span><b>Check</b></p>Patient details, insurance, codes and charges, before anything goes out.</div>
+      <div class="card"><p style="margin-top:0"><span class="num">2</span><b>Send</b></p>Submit the claim electronically, usually through a clearinghouse, to the right payer.</div>
+      <div class="card"><p style="margin-top:0"><span class="num">3</span><b>Follow up</b></p>Check claim status in portals, call payers, and work the A/R list.</div>
+      <div class="card"><p style="margin-top:0"><span class="num">4</span><b>Resolve</b></p>Post payments, bill the patient's share, fix rejections and appeal unfair denials.</div>
+    </div>
+    <div class="tip good"><b>The heart of the job</b>Follow-up. A claim that is sent and never tracked is money the practice may never see.</div>
+  </section>
+
+  <section id="b2">
+    <span class="chap">M5 · Topic 2</span>
+    <h2>Understanding insurances</h2>
+    <p class="lead">Insurance falls into two families: government and commercial. The line blurs when a private company runs a government plan.</p>
+    <div class="grid g3 vs">
+      <div class="card a"><h4>Government</h4><ul><li><b>Medicare:</b> people 65+, some people with disabilities, kidney failure. Federal, run by CMS. Claims go to regional contractors called MACs.</li><li><b>Medicaid:</b> low income, run by each state. Usually pays last.</li></ul></div>
+      <div class="card b"><h4>Blended</h4><ul><li><b>Medicare Advantage:</b> a private plan that manages a patient's Medicare</li><li><b>Medicaid HMO:</b> a private plan that manages a patient's Medicaid</li><li>Bill the plan on the card, not the government program</li></ul></div>
+      <div class="card c"><h4>Commercial</h4><ul><li>Private insurers, such as Blue Cross Blue Shield of Michigan (BCBSM)</li><li>Employer and individual plans</li><li>Each has its own rules, portal and filing limit</li></ul></div>
+    </div>
+    <h3>Reading an insurance card</h3>
+    <div class="card"><ul style="margin:0">
+      <li><b>Member ID</b> exactly as printed, including the <b>prefix</b>. On a BCBS card, the first three letters route the claim to the right Blue plan.</li>
+      <li><b>Group number</b> for employer plans</li>
+      <li>Plan type and network: HMO, PPO or Medicare Advantage</li>
+      <li>Copay amounts, payer ID or claims address</li>
+      <li>Phone numbers for provider services and prior authorization</li>
+    </ul></div>
+    <div class="tip"><b>Always copy both sides</b>The front shows who the patient is. The back shows where the claim goes and who to call.</div>
+    <div class="tip good"><b>Scenario</b>A 70-year-old shows a card from a private insurer marked "Medicare Advantage." Bill that plan, not original Medicare.</div>
+  </section>
+
+  <section id="b3">
+    <span class="chap">M5 · Topic 3</span>
+    <h2>Insurance portals</h2>
+    <p class="lead">Payer websites that let a biller do in minutes what used to take hours on hold.</p>
+    <div class="grid g2">
+      <div class="card"><b>What portals do</b><ul style="margin:6px 0 0"><li>Check eligibility and benefits</li><li>Check claim status</li><li>View payments and remittances</li><li>Submit or track prior authorizations</li></ul></div>
+      <div class="card"><b>Medicare</b><br>Each region's MAC runs its own provider portal.</div>
+      <div class="card"><b>Who pays first</b><br>Portals show other coverage, so you can set the order: primary, secondary, then tertiary. This is <b>coordination of benefits</b>.</div>
+      <div class="card"><b>Other portals</b><ul style="margin:6px 0 0"><li>Availity: one login for many commercial payers</li><li>State Medicaid portals</li><li>Payer-specific portals</li></ul></div>
+    </div>
+  </section>
+
+  <section id="b4">
+    <span class="chap">M5 · Topic 4</span>
+    <h2>Medical billing vs revenue cycle management</h2>
+    <p class="lead">Billing is one stretch of a much longer path. Revenue cycle management (RCM) covers the whole thing, from the first phone call to a zero balance.</p>
+    <div class="flow" role="img" aria-label="Front end, middle, back end of the revenue cycle">
+      <div class="st"><b>Front end</b><span>Referral, scheduling, registration, eligibility, prior authorization</span></div><div class="ar">→</div>
+      <div class="st"><b>Middle</b><span>Visit, documentation, charge capture, coding</span></div><div class="ar">→</div>
+      <div class="st"><b>Back end: billing</b><span>Claim, adjudication, payment posting, denials, A/R, down to $0</span></div>
+    </div>
+    <div class="tip"><b>Every stage affects payment</b>A typo at the front desk can come back weeks later as a rejected claim. The full step-by-step cycle is in Section 1, M1 Chapter 1.</div>
+  </section>
+
+  <section id="b5">
+    <span class="chap">M5 · Topic 5</span>
+    <h2>Verifying patient insurance eligibility</h2>
+    <p class="lead">Many revenue cycle problems start before a claim exists. Check coverage before the visit, ideally online.</p>
+    <div class="grid g2 vs">
+      <div class="card a"><h4>Eligibility check</h4><ul><li>Is coverage active on the date of service?</li><li>Is this the right plan and member?</li></ul></div>
+      <div class="card b"><h4>Benefit verification</h4><ul><li>What does the plan cover for this service?</li><li>Deductible, copay, coinsurance</li><li>Referral or prior authorization needed?</li><li>Is the provider in network?</li></ul></div>
+    </div>
+    <h3>Five ways to check coverage</h3>
+    <div class="scroll"><table>
+      <tr><th>1. Payer portal</th><td>The insurer's own website</td></tr>
+      <tr><th>2. Multi-payer portal</th><td>Availity and similar, one login for many payers</td></tr>
+      <tr><th>3. Real-time check</th><td>From the practice software or clearinghouse (the electronic 270/271 request and response)</td></tr>
+      <tr><th>4. Phone menu (IVR)</th><td>The payer's automated phone line</td></tr>
+      <tr><th>5. Payer representative</th><td>A live call, best for service-specific questions</td></tr>
+    </table></div>
+    <div class="tip warn"><b>An estimate, not a guarantee</b>The payer makes the final decision when it processes the claim. Write down who you spoke to, the call reference number and the date.</div>
+  </section>
+
+  <section id="b6">
+    <span class="chap">M5 · Topic 6</span>
+    <h2>Building a clean claim every time</h2>
+    <p class="lead">A clean claim is one the payer accepts and pays the first time, with no corrections. It has four ingredients.</p>
+    <div class="grid g2">
+      <div class="card"><p style="margin-top:0"><span class="num">1</span><b>Verified data</b></p>Name, date of birth, member ID and address match the payer's records.</div>
+      <div class="card"><p style="margin-top:0"><span class="num">2</span><b>Matched codes</b></p>Each procedure is backed by a diagnosis that explains it, with the right modifiers.</div>
+      <div class="card"><p style="margin-top:0"><span class="num">3</span><b>Payer requirements met</b></p>Prior authorization number, referral, provider NPI, whatever that payer asks for.</div>
+      <div class="card"><p style="margin-top:0"><span class="num">4</span><b>On-time submission</b></p>Sent inside the payer's timely filing limit.</div>
+    </div>
+  </section>
+
+  <section id="b7">
+    <span class="chap">M5 · Topic 7</span>
+    <h2>Claims adjudication</h2>
+    <p class="lead">How the insurer decides whether to pay, and how much. Four steps.</p>
+    <ol class="track">
+      <li><b>1. Initial processing review</b><span>Basic checks for missing or invalid data. Claims that fail here can be rejected right away.</span></li>
+      <li><b>2. Automatic review</b><span>Software checks coverage, code edits, duplicates and medical necessity rules.</span></li>
+      <li class="alt"><b>3. Manual review</b><span>A claims examiner looks at flagged claims and may ask for medical records. This is where delays begin.</span></li>
+      <li class="end"><b>4. Payment determination</b><span>Paid, denied or reduced. The result comes back on an EOB or ERA (see M6).</span></li>
+    </ol>
+  </section>
+
+  <section id="m5check">
+    <h2>M5 quick check</h2>
+    <p class="lead">Tap a question to reveal the answer.</p>
+    <details><summary>Name the four verbs of the biller's job.</summary><p class="ans">Check, send, follow up, resolve.</p></details>
+    <details><summary>What is the heart of the biller's job?</summary><p class="ans">Follow-up.</p></details>
+    <details><summary>Medicare Advantage card: who do you bill?</summary><p class="ans">The private Medicare Advantage plan, not original Medicare.</p></details>
+    <details><summary>Eligibility or benefits: which asks "is coverage active?"</summary><p class="ans">Eligibility.</p></details>
+    <details><summary>Why is a verified result only an estimate?</summary><p class="ans">The payer decides when it processes the claim.</p></details>
+    <details><summary>Four ingredients of a clean claim?</summary><p class="ans">Verified data, matched codes, payer requirements met, on-time submission.</p></details>
+    <details><summary>Which adjudication step usually causes delays?</summary><p class="ans">Manual review.</p></details>
+  </section>
+
+  <div class="mod" id="m6">
+    <span class="pill light">Section 3 · Week 3</span>
+    <h2>M6 · Medical Billing, Part 2</h2>
+    <p>A claim has been sent. Now what comes back, and what to do with it.</p>
+  </div>
+
+  <section id="e1">
+    <span class="chap">M6 · Topic 1</span>
+    <h2>Reading the EOB and ERA</h2>
+    <p class="lead">After adjudication the payer explains its decision line by line. Reading it right is the difference between billing the patient and filing a pointless appeal.</p>
+    <div class="grid g2 vs">
+      <div class="card a"><h4>EOB</h4><p style="margin:0">Explanation of Benefits. A paper or PDF statement. Patients get one too.</p></div>
+      <div class="card b"><h4>ERA</h4><p style="margin:0">Electronic Remittance Advice (the 835 file). Practice software can use it to post payments automatically.</p></div>
+    </div>
+    <h3>The lines to read</h3>
+    <div class="scroll"><table>
+      <tr><th>Billed amount</th><td>What the practice charged</td></tr>
+      <tr><th>Allowed amount</th><td>The most the payer recognizes under the contract</td></tr>
+      <tr><th>Contractual adjustment</th><td>Billed minus allowed. The practice writes it off.</td></tr>
+      <tr><th>Patient responsibility</th><td>Deductible, coinsurance and copay. Goes on the patient's bill.</td></tr>
+      <tr><th>Paid amount</th><td>What the payer actually paid</td></tr>
+      <tr><th>Adjustment and remark codes</th><td>Why the numbers came out this way (CARC and RARC codes)</td></tr>
+    </table></div>
+    <h3>Group codes decide who owes what</h3>
+    <div class="grid g3 vs">
+      <div class="card a"><h4>CO</h4><p style="margin:0">Contractual obligation. The provider writes it off and cannot bill the patient.</p></div>
+      <div class="card c"><h4>PR</h4><p style="margin:0">Patient responsibility. <span class="code">PR-1</span> deductible, <span class="code">PR-2</span> coinsurance, <span class="code">PR-3</span> copay.</p></div>
+      <div class="card b"><h4>OA and PI</h4><p style="margin:0">Other adjustment, and payer-initiated adjustment. Less common.</p></div>
+    </div>
+    <h3>Worked example: a $0 payment</h3>
+    <div class="card">
+      <p style="margin-top:0">Billed <b>$200</b>. Allowed <b>$120</b>. Paid <b>$0</b>. Adjustments: <span class="code">CO-45</span> $80 and <span class="code">PR-1</span> $120.</p>
+      <div class="bar" role="img" aria-label="Of 200 dollars billed, 80 dollars written off, 120 dollars owed by the patient, 0 dollars paid by insurer"><div class="wo" style="width:40%">Write-off $80</div><div class="pat" style="width:60%">Patient $120</div></div>
+      <div class="bar-key"><span>CO-45: over the fee schedule</span><span>PR-1: deductible</span></div>
+      <p style="margin-bottom:0;color:var(--soft)">The claim was approved. The allowed amount went toward the patient's unmet deductible, so the practice bills the patient $120.</p>
+    </div>
+    <div class="tip warn"><b>$0 + PR-1 is not a denial</b>It is the deductible. Bill the patient. Do not appeal.</div>
+  </section>
+
+  <section id="e2">
+    <span class="chap">M6 · Topic 2</span>
+    <h2>Rejected vs denied claims</h2>
+    <p class="lead">Both mean "not paid," but they happen at different points and need different responses.</p>
+    <div class="grid g2 vs">
+      <div class="card a"><h4>Rejected</h4><ul><li>Never reached the payer's system. It failed at the clearinghouse or the payer's front-door checks.</li><li>Causes: invalid member ID, wrong birth date, missing NPI, format errors</li><li>Shows on clearinghouse reports, not the ERA</li><li><b>Fix it and resubmit fast.</b> It counts as never filed, so the filing clock keeps running.</li></ul></div>
+      <div class="card c"><h4>Denied</h4><ul><li>Processed, and the payer decided not to pay</li><li>Causes: not covered, no prior authorization, not medically necessary, filed late, duplicate</li><li>Shows on the ERA with a reason code</li><li><b>Investigate before you act.</b> Then correct and resubmit, appeal, or bill the patient if the plan allows.</li></ul></div>
+    </div>
+  </section>
+
+  <section id="e3">
+    <span class="chap">M6 · Topic 3</span>
+    <h2>Why claims don't get paid</h2>
+    <p class="lead">Many errors start long before the claim is created: at the front desk.</p>
+    <div class="card"><p style="margin:0"><span class="big">~1 in 4</span></p><p style="margin:8px 0 0">claim errors start at the front desk: a misspelled name, a wrong birth date, an old card, the wrong primary payer, a missing referral.</p></div>
+    <h3>Three habits that prevent them</h3>
+    <div class="grid g3">
+      <div class="card"><p style="margin-top:0"><span class="num">1</span><b>Verify eligibility</b></p>Before every visit, not just the first one.</div>
+      <div class="card"><p style="margin-top:0"><span class="num">2</span><b>Keep data clean</b></p>Copy the card exactly and confirm details at each visit.</div>
+      <div class="card"><p style="margin-top:0"><span class="num">3</span><b>Use a checklist</b></p>Every registration captures the same required items.</div>
+    </div>
+  </section>
+
+  <section id="e4">
+    <span class="chap">M6 · Topic 4</span>
+    <h2>What is timely filing?</h2>
+    <p class="lead">The deadline for the payer to receive a claim, counted from the date of service. Miss it and the claim is denied, and the patient usually cannot be billed for it either.</p>
+    <div class="grid g2">
+      <div class="card"><b>Every payer is different</b><br>Medicare allows 12 months from the date of service. Commercial and Medicaid limits range from about 90 days to a year.</div>
+      <div class="card"><b>Trust the contract</b><br>The provider agreement is the only reliable source. Cheat sheets and old websites go out of date.</div>
+    </div>
+    <div class="tip"><b>Keep proof</b>Save clearinghouse acceptance reports. They prove the claim was sent on time if a payer says it was late.</div>
+  </section>
+
+  <section id="e5">
+    <span class="chap">M6 · Topic 5</span>
+    <h2>What is A/R in healthcare?</h2>
+    <p class="lead">While a claim waits, the practice has not been paid for care it already gave. That unpaid money is accounts receivable.</p>
+    <div class="grid g2 vs">
+      <div class="card a"><h4>A/R</h4><p style="margin:0"><b>How much</b> the practice is owed.</p></div>
+      <div class="card b"><h4>Aged receivables</h4><p style="margin:0"><b>How long</b> it has been owed, sorted into day buckets.</p></div>
+    </div>
+    <h3>Aging buckets</h3>
+    <div class="scroll"><table>
+      <tr><th>0 to 30 days</th><td>Normal. Most clean claims pay here.</td></tr>
+      <tr><th>31 to 60 days</th><td>Start following up on claim status.</td></tr>
+      <tr><th>61 to 90 days</th><td>Call the payer, find the problem, fix it.</td></tr>
+      <tr><th>91 to 120 days</th><td>Urgent. Filing and appeal deadlines get close.</td></tr>
+      <tr><th>120+ days</th><td>Least likely to be paid. Work the biggest balances first.</td></tr>
+    </table></div>
+  </section>
+
+  <section id="e6">
+    <span class="chap">M6 · Topic 6</span>
+    <h2>Patient registration</h2>
+    <p class="lead">Much of what gets stuck in A/R started with a problem at check-in. Good registration feeds a clean claim from the start.</p>
+    <ol class="track">
+      <li><b>Demographics</b><span>Full legal name, date of birth, address, phone</span></li>
+      <li><b>Cards and ID</b><span>Scan both sides of every insurance card, plus a photo ID</span></li>
+      <li><b>Policyholder</b><span>Who holds the policy and how the patient is related to them</span></li>
+      <li><b>Order of payers</b><span>Primary, secondary (coordination of benefits)</span></li>
+      <li><b>Eligibility and authorization</b><span>Coverage, benefits, referral, prior authorization</span></li>
+      <li class="end"><b>Signed forms</b><span>HIPAA acknowledgment, financial policy, assignment of benefits</span></li>
+    </ol>
+    <div class="tip good"><b>Assignment of benefits (AOB)</b>The patient's signed permission for the insurer to pay the provider directly. Without it, the payer may send the check to the patient.</div>
+  </section>
+
+  <section id="m6check">
+    <h2>M6 quick check</h2>
+    <p class="lead">Tap a question to reveal the answer.</p>
+    <details><summary>Paid $0, PR-1 $120. What happened?</summary><p class="ans">The deductible. Bill the patient $120, do not appeal.</p></details>
+    <details><summary>Who pays a CO adjustment? A PR adjustment?</summary><p class="ans">CO: the provider writes it off. PR: the patient pays.</p></details>
+    <details><summary>Invalid member ID bounced by the clearinghouse. Rejected or denied?</summary><p class="ans">Rejected. Fix the ID and resubmit quickly.</p></details>
+    <details><summary>Three front-desk habits?</summary><p class="ans">Verify eligibility, keep data clean, use a checklist.</p></details>
+    <details><summary>Only reliable source for a timely filing limit?</summary><p class="ans">The payer contract.</p></details>
+    <details><summary>A/R vs aged receivables?</summary><p class="ans">A/R is how much is owed. Aging is how long it has been owed.</p></details>
+    <details><summary>What does the AOB allow?</summary><p class="ans">The insurer pays the provider directly.</p></details>
+  </section>
+
   <div class="pager"><a href="#s2" data-go="s2">Section 2</a><a href="#s4" data-go="s4">Section 4</a></div>
 </div>
 
+<!-- ===================== SECTION 4 ===================== -->
 <div class="panel" id="s4">
-  <div class="mod"><span class="pill light">Section 4 · Week 4</span><h2>Week 4</h2><p>Modules will be listed here once the week starts.</p></div>
-  <div class="soon"><span class="pill">Coming soon</span><h3>Week 4 notes are on the way</h3><p>Each module will get its own block, like M1 in Section 1.</p><ul></ul></div>
+  <div class="mod" id="m7">
+    <span class="pill light">Section 4 · Week 4</span>
+    <h2>M7 · Basic AI Tools</h2>
+    <p>AI in corporate and medical billing work. AI is the tool, and you are the expert.</p>
+  </div>
+  <div class="subnav" aria-label="In this module">
+    <a href="#a1" data-spy="a1">Principles</a><a href="#a2" data-spy="a2">Five kinds of AI</a><a href="#a3" data-spy="a3">AI in the cycle</a><a href="#a4" data-spy="a4">AI-ready practice</a><a href="#a5" data-spy="a5">Human oversight</a><a href="#m7check" data-spy="m7check">M7 check</a><a href="#m8" data-spy="m8">M8</a><a href="#x1" data-spy="x1">Exercises</a><a href="#x2" data-spy="x2">AI mistakes</a><a href="#x3" data-spy="x3">Five rules</a><a href="#m8check" data-spy="m8check">M8 check</a>
+  </div>
+
+  <section id="a1">
+    <span class="chap">M7 · Topic 1</span>
+    <h2>Using AI honestly and responsibly</h2>
+    <p class="lead">Used well, AI takes over busy work so you can focus on judgment calls. Used carelessly, it spreads errors and exposes private information. Three principles guide every use.</p>
+    <div class="grid g3 vs">
+      <div class="card a"><h4>Truthfulness</h4><p style="margin:0">Never pass off unchecked AI output as fact, and never put invented facts in a claim or appeal.</p></div>
+      <div class="card b"><h4>Integrity</h4><p style="margin:0">Do your own thinking first, then use AI as a partner to critique and refine it.</p></div>
+      <div class="card c"><h4>Accountability</h4><p style="margin:0">You own what you send, even if AI drafted it.</p></div>
+    </div>
+    <div class="tip warn"><b>Keep private data out</b>Personal, patient, financial and company information stays out of AI tools unless your employer's policy allows it. When in doubt, leave it out.</div>
+    <div class="tip"><b>Better prompts</b>Clear, specific prompts with context get better results.</div>
+  </section>
+
+  <section id="a2">
+    <span class="chap">M7 · Topic 2</span>
+    <h2>The five kinds of AI</h2>
+    <p class="lead">AI will not replace billers. It takes over repetitive work (eligibility checks, claim scrubbing, status checks, appeal drafts) while the biller stays the decision-maker.</p>
+    <div class="scroll"><table>
+      <tr><th>Machine learning</th><td>Learns patterns from past data. <span class="note">Spots claims likely to be denied.</span></td></tr>
+      <tr><th>Natural language processing</th><td>Reads human language. <span class="note">Reads provider notes and suggests codes.</span></td></tr>
+      <tr><th>Predictive AI</th><td>Forecasts what comes next. <span class="note">Predicts payment timing and denial risk.</span></td></tr>
+      <tr><th>Automation</th><td>Runs rule-based, repetitive steps. <span class="note">Eligibility checks, status checks, payment posting.</span></td></tr>
+      <tr><th>Generative AI</th><td>Creates new text. <span class="note">Drafts appeal letters and patient messages.</span></td></tr>
+    </table></div>
+  </section>
+
+  <section id="a3">
+    <span class="chap">M7 · Topic 3</span>
+    <h2>How AI supports the revenue cycle</h2>
+    <p class="lead">AI can help at every stage, but much of its value comes early.</p>
+    <div class="card"><p style="margin:0"><span class="big">5 of 8</span></p><p style="margin:8px 0 0">revenue cycle stages come before the claim is submitted. Catching an eligibility gap or a registration error there stops a rejection before it happens.</p></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><b>Before the claim</b><ul style="margin:6px 0 0"><li>Eligibility and benefits checks</li><li>Auto-filled registration</li><li>Prior authorization flags</li><li>Coding suggestions</li></ul></div>
+      <div class="card"><b>After the claim</b><ul style="margin:6px 0 0"><li>Claim scrubbing and status checks</li><li>Sorting denials by deadline</li><li>Drafting appeals</li><li>Payment posting and forecasts</li></ul></div>
+    </div>
+  </section>
+
+  <section id="a4">
+    <span class="chap">M7 · Topic 4</span>
+    <h2>AI won't fix broken workflows. It will amplify them.</h2>
+    <p class="lead">AI speeds up whatever process it is given, good or bad. Messy data in means bad claims out, only faster. Five steps get a practice ready.</p>
+    <ol class="track">
+      <li><b>1. Audit workflows</b><span>Map how work is done today and find the weak spots</span></li>
+      <li><b>2. Standardize data</b><span>Consistent registration, templates and naming</span></li>
+      <li><b>3. Train the team</b><span>On the tool, its limits and privacy rules</span></li>
+      <li><b>4. Pilot one area</b><span>Start small, such as eligibility checks only</span></li>
+      <li class="end"><b>5. Check KPIs before expanding</b><span>Denial rate, days in A/R, clean-claim rate, staff time saved</span></li>
+    </ol>
+  </section>
+
+  <section id="a5">
+    <span class="chap">M7 · Topic 5</span>
+    <h2>AI can't do everything</h2>
+    <p class="lead">AI automates tasks, but it cannot replace human judgment. Even advanced systems make false positives, false negatives and "hallucinated" errors.</p>
+    <div class="grid g3">
+      <div class="card"><b>Oversight</b><br>People watch the data AI learns from and works on.</div>
+      <div class="card"><b>Validation</b><br>People check AI output before it is used.</div>
+      <div class="card"><b>Feedback</b><br>People report errors so the tool improves.</div>
+    </div>
+    <div class="tip good"><b>New roles</b>AI is creating jobs for people who know both the work and the tools, such as reviewing AI-assisted coding.</div>
+  </section>
+
+  <section id="m7check">
+    <h2>M7 quick check</h2>
+    <p class="lead">Tap a question to reveal the answer.</p>
+    <details><summary>The three principles for using AI?</summary><p class="ans">Truthfulness, integrity, accountability.</p></details>
+    <details><summary>Which kind of AI drafts appeal letters?</summary><p class="ans">Generative AI.</p></details>
+    <details><summary>Which kind reads provider notes?</summary><p class="ans">Natural language processing.</p></details>
+    <details><summary>How many revenue cycle stages come before the claim?</summary><p class="ans">Five of the eight.</p></details>
+    <details><summary>Five steps to an AI-ready practice?</summary><p class="ans">Audit workflows, standardize data, train the team, pilot one area, check KPIs before expanding.</p></details>
+    <details><summary>Three things AI needs from people?</summary><p class="ans">Oversight, validation, feedback.</p></details>
+  </section>
+
+  <div class="mod" id="m8">
+    <span class="pill light">Section 4 · Week 4</span>
+    <h2>M8 · Billing and Coding Practice with AI Tools</h2>
+    <p>Hands-on practice across the whole cycle. No scoring: catch the AI's mistakes and decide when to trust it.</p>
+  </div>
+
+  <section id="x1">
+    <span class="chap">M8 · Practice</span>
+    <h2>The four practice exercises</h2>
+    <p class="lead">Each follows the revenue cycle, from the front desk to the analytics dashboard. All patients and amounts are fictional.</p>
+    <div class="grid g2">
+      <div class="card"><p style="margin-top:0"><span class="num">1</span><b>The front end</b></p>Catch a coverage gap the AI eligibility tool missed, compare an AI-filled registration with the scanned card, write a prompt with no patient details, handle a prior authorization flag.<p class="note" style="margin:8px 0 0">"Ready" is not proof. Check the card.</p></div>
+      <div class="card"><p style="margin-top:0"><span class="num">2</span><b>Coding with an AI assistant</b></p>Review suggested codes for a sore throat, an ankle injury and a diabetes follow-up. Remove unsupported codes and write a non-leading provider query.<p class="note" style="margin:8px 0 0">The AI suggests codes. The note decides.</p></div>
+      <div class="card"><p style="margin-top:0"><span class="num">3</span><b>Claims, denials and appeals</b></p>Sort scrubber flags into real errors and false alarms, judge a modifier auto-fix, order denials by appeal deadline, check an AI appeal for invented facts.<p class="note" style="margin:8px 0 0">Fast is only good if it's right.</p></div>
+      <div class="card"><p style="margin-top:0"><span class="num">4</span><b>Posting, analytics and workflow</b></p>Check an auto-posted payment against the remittance, separate facts from predictions on a dashboard, pick a first AI pilot.<p class="note" style="margin:8px 0 0">Check the numbers, then decide where AI goes next.</p></div>
+    </div>
+  </section>
+
+  <section id="x2">
+    <span class="chap">M8 · Key idea</span>
+    <h2>The three kinds of AI mistakes</h2>
+    <p class="lead">Know these by name. Every exercise asks you to spot one.</p>
+    <div class="grid g3 vs">
+      <div class="card c"><h4>Hallucination</h4><p style="margin:0">Something that is not in the record: an invented code, fact or policy citation.</p></div>
+      <div class="card b"><h4>False negative</h4><p style="margin:0">Something the AI missed: a documented procedure left uncoded, a coverage gap not flagged.</p></div>
+      <div class="card a"><h4>False positive</h4><p style="margin:0">A problem that is not real: a "duplicate claim" that does not exist.</p></div>
+    </div>
+    <h3>Asking the provider the right way</h3>
+    <div class="grid g2">
+      <div class="card" style="border-top:6px solid var(--rose)"><b>Leading (avoid)</b><p style="margin:6px 0 0">"Please confirm the patient has uncontrolled diabetes with hyperglycemia."</p></div>
+      <div class="card" style="border-top:6px solid var(--ok)"><b>Non-leading (use)</b><p style="margin:6px 0 0">"Glucose of 280 is documented. Please clarify the diabetes status: controlled, with hyperglycemia, other, or unable to determine."</p></div>
+    </div>
+    <div class="tip"><b>The rule</b>Give the clinical facts and neutral options. Never steer toward the answer that pays more.</div>
+  </section>
+
+  <section id="x3">
+    <span class="chap">M8 · Wrap-up</span>
+    <h2>Five rules for working with AI</h2>
+    <div class="grid g2">
+      <div class="card"><p style="margin-top:0"><span class="num">1</span><b>Check against the source</b></p>The card, the note, the remittance. A "high confidence" label does not make it correct.</div>
+      <div class="card"><p style="margin-top:0"><span class="num">2</span><b>Watch for the three mistakes</b></p>Hallucinations, false negatives, false positives.</div>
+      <div class="card"><p style="margin-top:0"><span class="num">3</span><b>Documentation decides</b></p>Every code needs a sentence in the note. CO and PR codes decide who owes what.</div>
+      <div class="card"><p style="margin-top:0"><span class="num">4</span><b>Protect patient information</b></p>Use placeholders, approved tools only, and check every draft before it goes out.</div>
+      <div class="card"><p style="margin-top:0"><span class="num">5</span><b>Fix the cause, then let results guide AI</b></p>Expand a tool only when it saves time, improves accuracy, cuts denials and earns staff trust.</div>
+    </div>
+  </section>
+
+  <section id="m8check">
+    <h2>M8 quick check</h2>
+    <p class="lead">Tap a question to reveal the answer.</p>
+    <details><summary>The AI suggests a code for a procedure not in the note. What kind of mistake?</summary><p class="ans">A hallucination. Remove the code.</p></details>
+    <details><summary>The scrubber flags a duplicate that does not exist. What kind of mistake?</summary><p class="ans">A false positive.</p></details>
+    <details><summary>The AI misses a documented procedure. What kind of mistake?</summary><p class="ans">A false negative.</p></details>
+    <details><summary>Auto-posting put a CO amount on the patient's bill. What do you do?</summary><p class="ans">Correct the posting. CO is the provider's write-off, so the patient does not owe it.</p></details>
+    <details><summary>Write a safe prompt for an appeal letter.</summary><p class="ans">"Draft a professional appeal for a claim denied for [REASON CODE]. Use [PATIENT], [DATE OF SERVICE] and [CLAIM #] as placeholders. Do not cite any policy I have not given you."</p></details>
+  </section>
+
   <div class="pager"><a href="#s3" data-go="s3">Section 3</a><a href="#words" data-go="words">Word list</a></div>
 </div>
 
+<!-- ===================== WORD LIST ===================== -->
 <div class="panel" id="words">
 <section>
 <h2>Word list</h2>
-  <p class="lead">Every term from all weeks. New terms get added as modules arrive.</p>
+  <p class="lead">Every term from all four weeks.</p>
   <input id="q" type="search" placeholder="Search a term, like A/R or adjudication" aria-label="Search the word list">
   <div class="scroll"><table id="gloss">
     <tr><th>A/R (accounts receivable)</th><td>Money owed to the practice that has not been collected yet.</td></tr>
     <tr><th>AAPC</th><td>Organization behind the CPC credential. Also linked to Mentor City.</td></tr>
     <tr><th>Accounting of disclosures</th><td>A report of who a patient's information has been shared with.</td></tr>
-    <tr><th>Adjudication</th><td>The insurer processing a claim, ending in paid or denied.</td></tr>
+    <tr><th>Adjudication</th><td>The insurer processing a claim, ending in paid or denied. Four steps: initial review, automatic review, manual review, payment determination.</td></tr>
     <tr><th>Administrative safeguards</th><td>Office rules and procedures, such as staff access levels and training.</td></tr>
+    <tr><th>Aged receivables</th><td>How long A/R has been owed, sorted into day buckets (0–30, 31–60 and so on).</td></tr>
     <tr><th>AHIMA</th><td>Organization behind the CCS credential.</td></tr>
     <tr><th>Allowed amount</th><td>The amount the insurer agrees a service is worth. Coinsurance is applied to it.</td></tr>
+    <tr><th>Alpha prefix</th><td>The first three letters of a BCBS member ID, which route the claim to the right Blue plan.</td></tr>
     <tr><th>Annual reset</th><td>The OOP maximum starting over at the start of the calendar or plan year.</td></tr>
+    <tr><th>Assignment of benefits (AOB)</th><td>The patient's signed permission for the insurer to pay the provider directly.</td></tr>
     <tr><th>Audit log</th><td>A record of changes made to patient records.</td></tr>
     <tr><th>Auditing</th><td>Checking every stage of the cycle for efficiency and compliance.</td></tr>
     <tr><th>Authorization</th><td>The patient's written permission to share information, like with an employer.</td></tr>
+    <tr><th>Automation</th><td>AI that runs rule-based, repetitive steps, like eligibility checks and payment posting.</td></tr>
+    <tr><th>Availity</th><td>A multi-payer portal: one login for eligibility, claim status and more across many insurers.</td></tr>
     <tr><th>Benefit verification</th><td>Confirming a specific service is covered and at what cost.</td></tr>
+    <tr><th>CARC</th><td>Claim adjustment reason code on an EOB or ERA, explaining why an amount was adjusted.</td></tr>
     <tr><th>CCS</th><td>Certified Coding Specialist, from AHIMA.</td></tr>
     <tr><th>CEUs</th><td>Continuing education units. Required ongoing learning, such as 36 to 40 hours every two years.</td></tr>
     <tr><th>Claim scrubbing</th><td>Software or a coder checking codes for errors before the claim is sent.</td></tr>
+    <tr><th>Clawback</th><td>A payer taking back money it already paid after finding the claim was not supported.</td></tr>
+    <tr><th>Clean claim</th><td>A claim paid the first time. Four ingredients: verified data, matched codes, payer requirements met, on-time submission.</td></tr>
+    <tr><th>CMS-1500</th><td>Paper claim form for professional billing (electronic: 837P).</td></tr>
+    <tr><th>CO (contractual obligation)</th><td>Group code: the provider writes the amount off and cannot bill the patient.</td></tr>
     <tr><th>Coding Clinic</th><td>AHA publication coders use as an official research source.</td></tr>
     <tr><th>Coinsurance</th><td>The patient and insurer splitting a cost by percentage.</td></tr>
     <tr><th>Collections</th><td>Sending an unpaid patient balance to an outside agency.</td></tr>
     <tr><th>Confidential contact</th><td>The patient's choice of phone number and whether messages can be left.</td></tr>
+    <tr><th>Coordination of benefits</th><td>Setting the order of payers (primary, secondary) when a patient has more than one plan.</td></tr>
     <tr><th>Copay</th><td>A flat fee, usually collected at check-in.</td></tr>
     <tr><th>CPC</th><td>Certified Professional Coder, from AAPC.</td></tr>
+    <tr><th>CPT</th><td>Five-digit codes for procedures and services a provider performs.</td></tr>
     <tr><th>CPT Assistant</th><td>AMA publication coders use as an official research source.</td></tr>
-    <tr><th>Deductible</th><td>What the patient pays before the insurer starts paying.</td></tr>
+    <tr><th>Deductible</th><td>What the patient pays before the insurer starts paying. Shows as PR-1 on a remittance.</td></tr>
     <tr><th>Denial management</th><td>Tracking and fixing denied claims to recover payment.</td></tr>
+    <tr><th>Denied claim</th><td>A claim the payer processed and decided not to pay. Investigate before you act.</td></tr>
     <tr><th>Diagnosis code</th><td>Describes what is wrong with the patient (ICD-10-CM).</td></tr>
     <tr><th>Eligibility check</th><td>Confirming active coverage plus a few basic numbers.</td></tr>
     <tr><th>Encryption</th><td>Scrambling data, such as on hard drives, so unauthorized people cannot read it.</td></tr>
+    <tr><th>EOB</th><td>Explanation of Benefits: a paper or PDF statement of how a claim was processed.</td></tr>
+    <tr><th>ERA</th><td>Electronic Remittance Advice (835 file), used to post payments automatically.</td></tr>
+    <tr><th>False negative</th><td>An AI mistake where something real is missed, like a documented procedure left uncoded.</td></tr>
+    <tr><th>False positive</th><td>An AI mistake that flags a problem that is not there, like a duplicate claim that does not exist.</td></tr>
+    <tr><th>Generative AI</th><td>AI that creates new text, like appeal letter drafts.</td></tr>
+    <tr><th>Hallucination</th><td>An AI mistake that invents a code, fact or citation not found in the record.</td></tr>
+    <tr><th>HCPCS Level II</th><td>Codes for supplies, equipment, ambulance services and some drugs. A letter plus four digits.</td></tr>
     <tr><th>HHS Office for Civil Rights</th><td>Where patients file complaints about HIPAA violations.</td></tr>
     <tr><th>HIPAA</th><td>Health Insurance Portability and Accountability Act. Federal law protecting health information and giving patients rights over it.</td></tr>
+    <tr><th>ICD-10-CM</th><td>The diagnosis code set: why the patient was seen.</td></tr>
     <tr><th>Institutional billing</th><td>Billing for facility costs: hospitals, inpatient clinics and nursing facilities.</td></tr>
+    <tr><th>MAC</th><td>Medicare Administrative Contractor: the regional company that processes Medicare claims.</td></tr>
+    <tr><th>Machine learning</th><td>AI that learns patterns from past data, like which claims tend to be denied.</td></tr>
     <tr><th>Medical auditing</th><td>Reviewing charts proactively to find documentation gaps and keep the practice compliant.</td></tr>
     <tr><th>Medical biller</th><td>Sends claims to insurers, follows up, manages denials and bills the patient's remaining balance.</td></tr>
     <tr><th>Medical coder</th><td>Translates documentation into standardized, billable diagnosis and procedure codes.</td></tr>
+    <tr><th>Medical necessity</th><td>The diagnosis on a claim must explain why each procedure was done.</td></tr>
+    <tr><th>Medicare Advantage</th><td>A private plan that manages a patient's Medicare benefits. Bill the plan, not original Medicare.</td></tr>
     <tr><th>Mentor City</th><td>Mentorship platform connected with AAPC that matches newcomers with mentors.</td></tr>
+    <tr><th>Modifier</th><td>Two characters added to a CPT or HCPCS code to add detail, like -25 or -RT.</td></tr>
+    <tr><th>Natural language processing</th><td>AI that reads human language, like provider notes.</td></tr>
     <tr><th>Notice of Privacy Practices (NPP)</th><td>The document explaining how a patient's information is used and shared and what rights they have.</td></tr>
     <tr><th>OOP maximum</th><td>The most a patient pays for covered care in one plan year.</td></tr>
     <tr><th>Payer analytics software</th><td>Insurer software that checks claims and flags unusual billing patterns.</td></tr>
     <tr><th>PHI (protected health information)</th><td>A patient's health information that HIPAA protects, on paper or electronic.</td></tr>
     <tr><th>Physical safeguards</th><td>Locks, alarms, and placing screens and printers away from patients.</td></tr>
+    <tr><th>PR (patient responsibility)</th><td>Group code: the patient owes it. PR-1 deductible, PR-2 coinsurance, PR-3 copay.</td></tr>
+    <tr><th>Predictive AI</th><td>AI that forecasts what comes next, like payment timing or denial risk.</td></tr>
     <tr><th>Procedure code</th><td>Describes what was done for the patient (CPT/HCPCS).</td></tr>
     <tr><th>Professional billing</th><td>Billing for physician services and outpatient claims.</td></tr>
+    <tr><th>Provider query</th><td>A coder's neutral, non-leading question to the provider when documentation is unclear.</td></tr>
+    <tr><th>Rejected claim</th><td>A claim stopped before the payer processed it. Fix and resubmit quickly.</td></tr>
+    <tr><th>Revenue cycle management (RCM)</th><td>The whole path from referral to a zero balance. Billing is one stretch of it.</td></tr>
     <tr><th>Risk analysis</th><td>The first step in security: finding what safeguards a practice needs.</td></tr>
     <tr><th>Security Rule</th><td>The HIPAA rule on keeping electronic health data secure.</td></tr>
     <tr><th>Statement of disagreement</th><td>A written statement a patient adds to their record that stays on file.</td></tr>
     <tr><th>Technical safeguards</th><td>Hardware and software controls: passwords, virus protection, audit logs, encryption.</td></tr>
+    <tr><th>Timely filing</th><td>The payer's deadline to receive a claim. Medicare: 12 months from the date of service.</td></tr>
+    <tr><th>UB-04</th><td>Paper claim form for institutional billing (electronic: 837I).</td></tr>
     <tr><th>Zero balance</th><td>The goal of the revenue cycle: the patient and the insurer owe nothing.</td></tr>
   </table></div>
 
@@ -625,10 +1075,9 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
 </div>
 
 </main>
-<footer>Study notes from the IPS Learning Institute modules.</footer>
+<footer class="wrap">Study notes from the Medical Billing and Coding Bootcamp modules.</footer>
 
 <script>
-// Out-of-pocket calculator
 (function(){
   var money=function(n){return "$"+n.toLocaleString("en-US")};
   var max=document.getElementById("oop-max"), paid=document.getElementById("oop-paid"), bill=document.getElementById("oop-bill");
@@ -644,22 +1093,20 @@ footer{padding:40px 0 60px;color:var(--soft);text-align:center;font-size:.95rem}
     document.getElementById("result").textContent = left<=0
       ? "Maximum met. Insurance covers the rest of the year."
       : pct+"% of the way there. "+money(left)+" left before insurance covers 100%.";
-    var owe=Math.min(b,left);
+    var owe=Math.min(b,Math.max(left,0));
     document.getElementById("owe").textContent="Patient owes on this new bill: "+money(owe)+(b>owe?" (insurance pays the other "+money(b-owe)+")":"");
   }
   [max,paid,bill].forEach(function(el){el.addEventListener("input",update)});
   update();
 })();
 
-// Word list search
 document.getElementById("q").addEventListener("input",function(e){
   var t=e.target.value.toLowerCase();
   document.querySelectorAll("#gloss tr").forEach(function(r){
-    r.style.display=r.textContent.toLowerCase().indexOf(t)>-1?"":"none";
+    r.hidden=r.textContent.toLowerCase().indexOf(t)<0;
   });
 });
 
-// Section tabs (works inside sandboxed previews: no history API, no storage)
 (function(){
   var ids=["home","s1","s2","s3","s4","words"];
   function show(id,noScroll){
@@ -678,7 +1125,7 @@ document.getElementById("q").addEventListener("input",function(e){
     var l=e.target.closest(".subnav a");
     if(l){e.preventDefault();var t=document.getElementById(l.getAttribute("href").slice(1));if(t)t.scrollIntoView({behavior:"smooth"})}
   });
-  // highlight the module part you are reading
+  window.addEventListener("hashchange",function(){var h="";try{h=location.hash.slice(1)}catch(_){}if(ids.indexOf(h)>-1)show(h)});
   function spy(){
     document.querySelectorAll(".subnav").forEach(function(nav){
       if(!nav.offsetParent)return;
@@ -688,6 +1135,7 @@ document.getElementById("q").addEventListener("input",function(e){
         if(t&&t.getBoundingClientRect().top<=170)cur=l;
       });
       links.forEach(function(l){l.classList.toggle("on",l===cur)});
+      if(cur&&cur.scrollIntoView&&nav.scrollWidth>nav.clientWidth){nav.scrollLeft=cur.offsetLeft-nav.clientWidth/2+cur.offsetWidth/2}
     });
   }
   var top=document.createElement("button");top.className="totop";top.type="button";top.textContent="↑";top.setAttribute("aria-label","Back to top");
@@ -697,7 +1145,6 @@ document.getElementById("q").addEventListener("input",function(e){
   show(ids.indexOf(h)>-1?h:"home",true);
 })();
 
-// Theme toggle
 (function(){
   var root=document.documentElement, btn=document.getElementById("theme");
   var dark=window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -706,5 +1153,6 @@ document.getElementById("q").addEventListener("input",function(e){
   btn.addEventListener("click",function(){dark=!dark;set(dark)});
 })();
 </script>
+
 </body>
 </html>
